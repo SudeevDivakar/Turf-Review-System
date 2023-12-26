@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Turf = require('../models/turfSchema.js');             //requiring model 
 const {footballTurfs} = require('./turfs.js');              //requiring file with seed data
 
+if(process.env.NODE_ENV != 'production'){
+    require('dotenv').config();
+}
+
 mongoose.connect('mongodb://127.0.0.1:27017/TurfReview')    //connection to mongoDB
 .then(() => {
     console.log('DATABASE CONNECTION OPEN');
