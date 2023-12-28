@@ -5,6 +5,7 @@ const turfSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    image: String,
     price: {
         type: Number
     },
