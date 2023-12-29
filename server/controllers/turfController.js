@@ -8,6 +8,7 @@ const displayAllTurfs = async (req, res) => {
 const addTurf = async (req, res) => {
     const turf = await Turf.create({
         name: req.body.name,
+        image: req.body.image,
         price: req.body.price,
         rating: req.body.rating,
         review: req.body.review,
@@ -23,7 +24,7 @@ const displayTurf = async (req, res) => {
 
 const updateTurf = async (req, res) => {
     const newTurf = await Turf.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
-    res.json({ newTurf });
+    res.json(newTurf);
 };
 
 const deleteTurf =async (req, res) => {

@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ResponsiveAppBar from "../components/ResponsiveAppBar";
+import Footer from "../components/Footer";
+import { CssBaseline } from "@mui/material";
+import ShowCard from "../components/ShowCard";
 
-export default function Turf(){
+export default function Turf() {
     const navigate = useNavigate();
     const [turf, setTurf] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
         fetchTurf();
-    },[]);
+    }, []);
 
     const fetchTurf = async () => {
         const res = await axios.get(`http://localhost:3000/turfs/${id}`);
@@ -19,23 +23,22 @@ export default function Turf(){
     }
 
     const handleDelete = async () => {
-        try{
+        try {
             const res = await axios.delete(`http://localhost:3000/turfs/${id}`);
             navigate('/turfs');
         }
-        catch{
+        catch {
             console.log('Error in Deleting Turf');
         }
     }
 
-    return(
-        <div>
-            <h1>{turf.name}</h1>
-            <h3>{turf.location}</h3>
-            <p>{turf.review}</p>
-            <Link to={`/turfs/edit/${id}`}>Edit Turf</Link>
-            <button onClick={handleDelete}>Delete Turf</button>
-            <Link to='/turfs'>Back To Turfs</Link>
+    return (
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+            <CssBaseline>
+                <ResponsiveAppBar />
+                <ShowCard turf={turf} handleDelete={handleDelete} id={id} />
+                <Footer />
+            </CssBaseline>
         </div>
     )
 }
