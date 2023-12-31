@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -27,8 +27,24 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
             newErrors.price = 'Price is required';
         }
 
+        if(isNaN(formData.price)) {
+            newErrors.price = 'Price can only contain number inputs';
+        }
+
+        if(formData.price < 0){
+            newErrors.price = 'Price cannot be less than 0';
+        }
+
         if (!formData.rating) {
             newErrors.rating = 'Rating is required';
+        }
+
+        if(isNaN(formData.rating)) {
+            newErrors.rating = 'Rating can only contain number inputs';
+        }
+
+        if(formData.rating > 5 || formData.rating < 0){
+            newErrors.rating = 'Rating must be between 0 and 5';
         }
 
         if (!formData.location) {
@@ -70,6 +86,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     variant="outlined"
                     id="name"
                     name="name"
+                    autoComplete='off'
                     value={formData.name}
                     onChange={handleChange}
                     error={!!errors.name}
@@ -81,6 +98,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     variant="outlined"
                     id="price"
                     name="price"
+                    autoComplete='off'
                     value={formData.price}
                     onChange={handleChange}
                     error={!!errors.price}
@@ -92,6 +110,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     variant="outlined"
                     id="rating"
                     name="rating"
+                    autoComplete='off'
                     value={formData.rating}
                     onChange={handleChange}
                     error={!!errors.rating}
@@ -105,6 +124,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     rows={4}
                     id="location"
                     name="location"
+                    autoComplete='off'
                     value={formData.location}
                     onChange={handleChange}
                     error={!!errors.location}
@@ -118,6 +138,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     rows={4}
                     id="review"
                     name="review"
+                    autoComplete='off'
                     value={formData.review}
                     onChange={handleChange}
                     error={!!errors.review}
@@ -130,6 +151,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     type="text"
                     id="image"
                     name="image"
+                    autoComplete='off'
                     value={formData.image}
                     onChange={handleChange}
                     error={!!errors.image}
@@ -137,11 +159,11 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     sx={{ marginBottom: 2 }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Button variant="contained" type="submit" color="success" sx={{ width: '40%', marginBottom: 6 }}>
+                    <Button variant="contained" type="submit" color="success" id='submitButton' name='submitButton' sx={{ width: '40%', marginBottom: 6 }}>
                         {type === 'edit' ? 'Edit' : 'Add'} Turf
                     </Button>
                     <Link to='/turfs'>
-                        <Button variant='contained' color='primary'>Back To Turfs</Button>
+                        <Button variant='contained' id='backButton' name='backButton' color='primary'>Back To Turfs</Button>
                     </Link>
                 </Box>
             </Box>

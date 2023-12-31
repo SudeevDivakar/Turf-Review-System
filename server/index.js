@@ -1,8 +1,10 @@
 //Import dependencies
 const express = require('express');
 const mongoose = require('mongoose');
-const Turf = require('./models/turfSchema.js');
 const turfController = require('./controllers/turfController.js');
+const catchAsync = require('./utils/catchAsync.js');
+const ExpressError = require('./utils/ExpressError.js');
+const { turfSchema } = require('./schemas.js')
 const cors = require('cors');
 
 if (process.env.NODE_ENV != 'production') {
@@ -28,16 +30,38 @@ app.use(express.json());
 app.use(cors());
 
 
+//Middleware
+const validateTurf = (req, res, next) => {
+    const { error } = turfSchema.validate(req.body);
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    }
+    else{
+        next();
+    }
+}
+
+
 //Routing
-app.get('/turfs', turfController.displayAllTurfs);
+app.get('/turfs', catchAsync(turfController.displayAllTurfs));
 
-app.post('/turfs/new', turfController.addTurf);
+app.post('/turfs/new', validateTurf, catchAsync(turfController.addTurf));
 
-app.get('/turfs/:id', turfController.displayTurf);
+app.get('/turfs/:id', catchAsync(turfController.displayTurf));
 
-app.patch('/turfs/:id', turfController.updateTurf);
+app.patch('/turfs/:id', validateTurf, catchAsync(turfController.updateTurf));
 
-app.delete('/turfs/:id', turfController.deleteTurf);
+app.delete('/turfs/:id', catchAsync(turfController.deleteTurf));
+
+app.get('/pageNotFound', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+});
+
+app.use((err, req, res, next) => {
+    const { message = 'Something Went Wrong' , statusCode = 500 } = err;
+    res.status(statusCode).send(message);
+});
 
 
 //Start server

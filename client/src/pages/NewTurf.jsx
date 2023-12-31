@@ -15,12 +15,12 @@ export default function NewTurf() {
         location: '',
         review: '',
         image: ''
-    })
+    });
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
-            const res = await axios.post('http://localhost:3000/turfs/new', formData);
+            const res = await axios.post(`http://localhost:3000/turfs/new`, formData);
             navigate(`/turfs/${res.data._id}`);
         }
         catch (err) {
