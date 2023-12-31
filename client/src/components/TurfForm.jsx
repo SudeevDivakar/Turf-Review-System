@@ -79,7 +79,6 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                 <TextField
                     label="&#8377;Price"
                     variant="outlined"
-                    type="number"
                     id="price"
                     name="price"
                     value={formData.price}
@@ -91,7 +90,6 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                 <TextField
                     label="Rating"
                     variant="outlined"
-                    type="number"
                     id="rating"
                     name="rating"
                     value={formData.rating}
