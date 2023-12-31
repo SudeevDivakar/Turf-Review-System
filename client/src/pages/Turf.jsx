@@ -33,7 +33,7 @@ export default function Turf() {
     }
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', textAlign: 'center', backgroundColor: '#EEF0E5' }}>
             <CssBaseline>
                 <ResponsiveAppBar />
                 <ShowCard turf={turf} handleDelete={handleDelete} id={id} />

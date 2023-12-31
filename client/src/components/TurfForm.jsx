@@ -91,7 +91,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.name}
                     helperText={errors.name}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="&#8377;Price"
@@ -103,7 +103,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.price}
                     helperText={errors.price}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="Rating"
@@ -115,7 +115,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.rating}
                     helperText={errors.rating}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="Location"
@@ -129,7 +129,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.location}
                     helperText={errors.location}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="Review"
@@ -143,7 +143,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.review}
                     helperText={errors.review}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
                     label="Image URL"
@@ -156,7 +156,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.image}
                     helperText={errors.image}
-                    sx={{ marginBottom: 2 }}
+                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Button variant="contained" type="submit" color="success" id='submitButton' name='submitButton' sx={{ width: '40%', marginBottom: 6 }}>

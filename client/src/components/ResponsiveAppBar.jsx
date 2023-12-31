@@ -41,7 +41,7 @@ export default function ResponsiveAppBar() {
     <AppBar position="sticky" sx={{ backgroundColor: '#303030' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img src="https://i.pinimg.com/564x/97/51/5b/97515b2008d097b055deded4a32d33f1.jpg" alt="Logo" style={{ height: '30px', marginRight: '8px' }} />
+          <img src={import.meta.env.BASE_URL + 'Logo.jpg'} alt="Logo" style={{ height: '30px', marginRight: '8px' }} />
           <Typography
             variant="h6"
             noWrap

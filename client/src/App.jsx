@@ -3,6 +3,7 @@ import AllTurfs from './pages/AllTurfs';
 import Turf from './pages/Turf';
 import NewTurf from './pages/NewTurf';
 import EditTurf from './pages/EditTurf';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path='/turfs/:id' element={<Turf />} />
         <Route path='/turfs/new' element={<NewTurf />} />
         <Route path='/turfs/edit/:id' element={<EditTurf />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   )

@@ -20,9 +20,8 @@ export default function AllTurfs() {
         })
     };
 
-
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', textAlign: 'center', backgroundColor: '#EEF0E5'}}>
             <CssBaseline>
                 <ResponsiveAppBar />
                 <h1>All Turfs</h1>
