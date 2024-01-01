@@ -35,18 +35,6 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
             newErrors.price = 'Price cannot be less than 0';
         }
 
-        if (!formData.rating) {
-            newErrors.rating = 'Rating is required';
-        }
-
-        if(isNaN(formData.rating)) {
-            newErrors.rating = 'Rating can only contain number inputs';
-        }
-
-        if(formData.rating > 5 || formData.rating < 0){
-            newErrors.rating = 'Rating must be between 0 and 5';
-        }
-
         if (!formData.location) {
             newErrors.location = 'Location is required';
         }
@@ -103,18 +91,6 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     onChange={handleChange}
                     error={!!errors.price}
                     helperText={errors.price}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
-                />
-                <TextField
-                    label="Rating"
-                    variant="outlined"
-                    id="rating"
-                    name="rating"
-                    autoComplete='off'
-                    value={formData.rating}
-                    onChange={handleChange}
-                    error={!!errors.rating}
-                    helperText={errors.rating}
                     sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField

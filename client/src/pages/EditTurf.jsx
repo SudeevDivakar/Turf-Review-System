@@ -13,7 +13,6 @@ export default function EditTurf() {
     const [formData, setFormData] = useState({
         name: '',
         price: 0,
-        rating: 0,
         location: '',
         description: '',
         image: ''
@@ -29,7 +28,6 @@ export default function EditTurf() {
             return {
                 name: res.data.name,
                 price: res.data.price,
-                rating: res.data.rating,
                 location: res.data.location,
                 description: res.data.description,
                 image: res.data.image

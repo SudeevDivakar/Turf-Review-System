@@ -11,7 +11,6 @@ export default function NewTurf() {
     const [formData, setFormData] = useState({
         name: '',
         price: 0,
-        rating: 0,
         location: '',
         description: '',
         image: ''
