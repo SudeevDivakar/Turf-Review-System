@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, Rating } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 export default function DisplayCard({ turf }) {
@@ -24,16 +24,19 @@ export default function DisplayCard({ turf }) {
                         {turf.name}
                     </Typography>
                     <Typography variant="h6" component="div" sx={{ marginBottom: 1 }}>
-                        {turf.review}
+                        {turf.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" component="div">
                         Location: {turf.location}
                     </Typography>
-                    <Link to={`/turfs/${turf._id}`}>
-                        <Button variant="contained" color="primary" sx={{ mt: 2 }}>
-                            View Turf
-                        </Button>
-                    </Link>
+                    <Rating name="read-only" value={turf.rating} precision={0.5} readOnly sx={{mt: 2}}/>
+                    <div>
+                        <Link to={`/turfs/${turf._id}`}>
+                            <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+                                View Turf
+                            </Button>
+                        </Link>
+                    </div>
                 </CardContent>
             </Box>
         </Card>

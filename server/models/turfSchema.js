@@ -13,7 +13,7 @@ const turfSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    review: {
+    description: {
         type: String
     },
     location: {

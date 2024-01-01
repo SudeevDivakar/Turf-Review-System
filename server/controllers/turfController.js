@@ -11,7 +11,7 @@ const addTurf = async (req, res) => {
         image: req.body.image,
         price: req.body.price,
         rating: req.body.rating,
-        review: req.body.review,
+        description: req.body.description,
         location: req.body.location
     });
     res.json(turf);

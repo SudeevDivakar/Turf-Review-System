@@ -15,7 +15,7 @@ export default function EditTurf() {
         price: 0,
         rating: 0,
         location: '',
-        review: '',
+        description: '',
         image: ''
     });
 
@@ -31,7 +31,7 @@ export default function EditTurf() {
                 price: res.data.price,
                 rating: res.data.rating,
                 location: res.data.location,
-                review: res.data.review,
+                description: res.data.description,
                 image: res.data.image
             };
         });

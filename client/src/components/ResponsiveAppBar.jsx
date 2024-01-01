@@ -91,7 +91,17 @@ export default function ResponsiveAppBar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page.label}>
-                  <Link to={page.link}><Typography textAlign="center">{page.label}</Typography></Link>
+                  <Button
+                    key={page.label}
+                    component={Link}
+                    to={page.link}
+                    sx={{
+                      color: 'inherit', // Changed color to 'inherit'
+                      display: 'block',
+                    }}
+                  >
+                    {page.label}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>

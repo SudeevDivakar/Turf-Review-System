@@ -51,8 +51,8 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
             newErrors.location = 'Location is required';
         }
 
-        if (!formData.review) {
-            newErrors.review = 'Review is required';
+        if (!formData.description) {
+            newErrors.description = 'Description is required';
         }
 
         if (!formData.image) {
@@ -94,7 +94,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
-                    label="&#8377;Price"
+                    label="&#8377;Price/Hour"
                     variant="outlined"
                     id="price"
                     name="price"
@@ -132,17 +132,17 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField
-                    label="Review"
+                    label="Description"
                     variant="outlined"
                     multiline
                     rows={4}
-                    id="review"
-                    name="review"
+                    id="description"
+                    name="description"
                     autoComplete='off'
-                    value={formData.review}
+                    value={formData.description}
                     onChange={handleChange}
-                    error={!!errors.review}
-                    helperText={errors.review}
+                    error={!!errors.description}
+                    helperText={errors.description}
                     sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <TextField

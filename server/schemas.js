@@ -6,7 +6,7 @@ const turfSchema = Joi.object({
     image: Joi.string().required(),
     rating: Joi.number().required().max(5).min(0),
     location: Joi.string().required(),
-    review: Joi.string().required()
+    description: Joi.string().required()
 });
 
 module.exports = { turfSchema };

@@ -4,7 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import { Typography, Rating } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { teal } from '@mui/material/colors';
 
@@ -24,7 +24,7 @@ export default function ShowCard({ turf, handleDelete, id }) {
                     {turf.name}
                 </Typography>
                 <Typography variant="body1" sx={{ marginBottom: 1 }}>
-                    {turf.review}
+                    {turf.description}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ marginBottom: 1 }}>
                     {turf.location}
@@ -32,8 +32,9 @@ export default function ShowCard({ turf, handleDelete, id }) {
                 <Typography variant="body2" color="text.secondary">
                     Price: &#8377;{turf.price}/hour
                 </Typography>
+                <Rating name="read-only" value={turf.rating || 0} precision={0.5} readOnly sx={{mt: 1}}/>
             </CardContent>
-            <CardActions sx={{ justifyContent: 'center' }}>
+            <CardActions sx={{ justifyContent: 'center',mb:2 }}>
                 <Link to={`/turfs/edit/${id}`}><Button size="small" variant='contained' sx={{
                     backgroundColor: color, '&:hover': {
                         backgroundColor: hoverColor

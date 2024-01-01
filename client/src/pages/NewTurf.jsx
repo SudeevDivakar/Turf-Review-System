@@ -13,7 +13,7 @@ export default function NewTurf() {
         price: 0,
         rating: 0,
         location: '',
-        review: '',
+        description: '',
         image: ''
     });
 
