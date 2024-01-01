@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const turfController = require('./controllers/turfController.js');
 const catchAsync = require('./utils/catchAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
-const { turfSchema } = require('./schemas.js')
+const { turfSchema, reviewSchema } = require('./schemas.js')
 const cors = require('cors');
+const Turf = require('./models/turfSchema.js');
+const Review = require('./models/reviewSchema.js');
 
 if (process.env.NODE_ENV != 'production') {
     require('dotenv').config();
@@ -42,6 +44,17 @@ const validateTurf = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if( error ) {
+        const msg = error.details.map(el => el.message).join(',');
+        throw new ExpressError(msg, 400);
+    }
+    else{
+        next();
+    }
+}
+
 
 //Routing
 app.get('/turfs', catchAsync(turfController.displayAllTurfs));
@@ -53,6 +66,22 @@ app.get('/turfs/:id', catchAsync(turfController.displayTurf));
 app.patch('/turfs/:id', validateTurf, catchAsync(turfController.updateTurf));
 
 app.delete('/turfs/:id', catchAsync(turfController.deleteTurf));
+
+app.post('/turfs/:id/reviews', validateReview, catchAsync(async(req, res) => {
+    const turf = await Turf.findById(req.params.id);
+    const newReview = new Review(req.body);
+    turf.reviews.push(newReview);
+    await newReview.save();
+    await turf.save();
+    res.json(newReview)
+}))
+
+app.delete('/turfs/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Turf.findByIdAndUpdate(id, { $pull: { reviews: reviewId }});
+    await Review.findByIdAndDelete(reviewId);
+    res.status(200).json({ message: 'Review deleted successfully' });
+}))
 
 app.get('/pageNotFound', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

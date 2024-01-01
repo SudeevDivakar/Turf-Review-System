@@ -13,7 +13,7 @@ const hoverColor = teal[300];
 
 export default function ShowCard({ turf, handleDelete, id }) {
     return (
-        <Card sx={{ width: 500, margin: 'auto' }}>
+        <Card sx={{ width: '34rem', margin: 'auto', mt: 3 }}>
             <CardMedia
                 sx={{ height: 300 }}
                 image={`${turf.image}`}

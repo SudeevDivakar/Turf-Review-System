@@ -17,7 +17,7 @@ const addTurf = async (req, res) => {
 };
 
 const displayTurf = async (req, res) => {
-    const turf = await Turf.findById(req.params.id);
+    const turf = await Turf.findById(req.params.id).populate('reviews');
     res.json(turf);
 };
 
@@ -27,7 +27,7 @@ const updateTurf = async (req, res) => {
 };
 
 const deleteTurf =async (req, res) => {
-    const response = await Turf.deleteOne({ _id: req.params.id });
+    const response = await Turf.findByIdAndDelete(req.params.id);
     res.json(response);
 };
 

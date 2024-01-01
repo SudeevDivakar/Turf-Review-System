@@ -8,4 +8,9 @@ const turfSchema = Joi.object({
     description: Joi.string().required()
 });
 
-module.exports = { turfSchema };
+const reviewSchema = Joi.object({
+    rating: Joi.number().required().min(0).max(5),
+    review: Joi.string().required()
+})
+
+module.exports = { turfSchema, reviewSchema };

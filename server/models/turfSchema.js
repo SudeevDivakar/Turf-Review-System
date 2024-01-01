@@ -1,24 +1,25 @@
 const mongoose = require('mongoose');
+const Review = require('./reviewSchema.js');
+const Schema = mongoose.Schema;
 
-const turfSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
+const turfSchema = new Schema({
+    name: String,
     image: String,
-    price: {
-        type: Number
-    },
-    rating: {
-        type: Number,
-        required: true
-    },
-    description: {
-        type: String
-    },
-    location: {
-        type: String,
-        required: true  
+    price: Number,
+    rating: Number,
+    description: String,
+    location: String,
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
+});
+
+turfSchema.post('findOneAndDelete', async function(doc) {
+    if(doc){
+        await Review.deleteMany({ _id: { $in: doc.reviews } });
     }
 });
 
