@@ -1,7 +1,6 @@
 //Import dependencies
 const express = require('express');
 const mongoose = require('mongoose');
-const turfController = require('./controllers/turfController.js');
 const catchAsync = require('./utils/catchAsync.js');
 const ExpressError = require('./utils/ExpressError.js');
 const { turfSchema, reviewSchema } = require('./schemas.js')
@@ -57,15 +56,36 @@ const validateReview = (req, res, next) => {
 
 
 //Routing
-app.get('/turfs', catchAsync(turfController.displayAllTurfs));
+app.get('/turfs', catchAsync(async (req, res) => {
+    const turfs = await Turf.find({});
+    res.json(turfs);
+}));
 
-app.post('/turfs/new', validateTurf, catchAsync(turfController.addTurf));
+app.post('/turfs/new', validateTurf, catchAsync(async (req, res) => {
+    const turf = await Turf.create({
+        name: req.body.name,
+        image: req.body.image,
+        price: req.body.price,
+        description: req.body.description,
+        location: req.body.location
+    });
+    res.json(turf);
+}));
 
-app.get('/turfs/:id', catchAsync(turfController.displayTurf));
+app.get('/turfs/:id', catchAsync(async (req, res) => {
+    const turf = await Turf.findById(req.params.id).populate('reviews');
+    res.json(turf);
+}));
 
-app.patch('/turfs/:id', validateTurf, catchAsync(turfController.updateTurf));
+app.patch('/turfs/:id', validateTurf, catchAsync(async (req, res) => {
+    const newTurf = await Turf.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
+    res.json(newTurf);
+}));
 
-app.delete('/turfs/:id', catchAsync(turfController.deleteTurf));
+app.delete('/turfs/:id', catchAsync(async (req, res) => {
+    const response = await Turf.findByIdAndDelete(req.params.id);
+    res.json(response);
+}));
 
 app.post('/turfs/:id/reviews', validateReview, catchAsync(async(req, res) => {
     const turf = await Turf.findById(req.params.id);
