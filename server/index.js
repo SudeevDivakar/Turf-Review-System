@@ -70,6 +70,7 @@ app.delete('/turfs/:id', catchAsync(turfController.deleteTurf));
 app.post('/turfs/:id/reviews', validateReview, catchAsync(async(req, res) => {
     const turf = await Turf.findById(req.params.id);
     const newReview = new Review(req.body);
+    newReview.turfId = req.params.id;
     turf.reviews.push(newReview);
     await newReview.save();
     await turf.save();
