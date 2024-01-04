@@ -27,7 +27,7 @@ export default function NotFound() {
                 <div  style={{ marginTop: '9rem'  }}>
                     <h1 style={{ fontSize: '3em', color: '#B6BBC4' }}>404 - Not Found</h1>
                     <b><p style={{ fontSize: '1.5em', color: 'white' }}>Sorry, the page you are looking for does not exist.</p></b>
-                    <Link to='/turfs'><Button variant='outlined' color='primary'>Back To Turfs</Button></Link>
+                    <Link to='/turfs'><Button variant='outlined' color='primary' sx={{mt:3}}>Back To Turfs</Button></Link>
                 </div>
                 <Footer />
             </CssBaseline>

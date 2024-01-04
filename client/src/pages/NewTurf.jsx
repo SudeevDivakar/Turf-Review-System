@@ -4,7 +4,7 @@ import axios from 'axios';
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
 import Footer from "../components/Footer";
 import TurfForm from "../components/TurfForm";
-import { CssBaseline, Box } from "@mui/material";
+import { CssBaseline, Box, Snackbar, Alert } from "@mui/material";
 
 export default function NewTurf() {
     const navigate = useNavigate();
@@ -16,16 +16,37 @@ export default function NewTurf() {
         image: ''
     });
 
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
     const handleSubmit = async (evt) => {
         evt.preventDefault();
         try {
+            setLoading(true);
             const res = await axios.post(`http://localhost:3000/turfs/new`, formData);
-            navigate(`/turfs/${res.data._id}`);
-        }
-        catch (err) {
+            setTimeout(() => {
+                navigate(`/turfs/${res.data._id}`);
+            }, 1000);
+            handleClick();
+        } catch (err) {
             console.log('Error in Adding Turf', err);
+        } finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 1000);
         }
-    }
+    };
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEF0E5' }}>
@@ -33,9 +54,14 @@ export default function NewTurf() {
             <ResponsiveAppBar />
             <Box sx={{ textAlign: 'center' }}>
                 <h1>Add New Turf</h1>
-                <TurfForm handleSubmit={handleSubmit} formData={formData} setFormData={setFormData} type='add' />
+                <TurfForm handleSubmit={handleSubmit} formData={formData} setFormData={setFormData} type='add' loading={loading} />
+                <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                        Turf Successfully Added!
+                    </Alert>
+                </Snackbar>
             </Box>
             <Footer />
         </div>
-    )
+    );
 }

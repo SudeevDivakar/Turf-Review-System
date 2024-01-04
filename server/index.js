@@ -8,6 +8,9 @@ const ExpressError = require('./utils/ExpressError.js');
 // Used to recieve requests from other servers 
 const cors = require('cors');
 
+// Require session
+const session = require('express-session');
+
 //Requiring routes
 const turfs = require('./routes/turfs.js');
 const reviews = require('./routes/reviews.js');
@@ -30,9 +33,20 @@ mongoose.connect(process.env.DB_URL)
 const app = express();
 
 
-//Configure Express app & other middleware
+//Configure Express app & Other Middleware
 app.use(express.json());
 app.use(cors());
+const sessionConfig = {
+    secret: 'thisShouldBeABetterSecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,                       //Date.now() is in milliseconds and we add on how long we want it to last (also in milliseconds)
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+app.use(session(sessionConfig));
 
 
 //Routing

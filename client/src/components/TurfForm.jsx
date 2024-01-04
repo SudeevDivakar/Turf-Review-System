@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function TurfForm({ handleSubmit, formData, setFormData, type }) {
+export default function TurfForm({ handleSubmit, formData, setFormData, type, loading }) {
     const [errors, setErrors] = useState({});
 
     const handleChange = (evt) => {
@@ -27,11 +27,11 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
             newErrors.price = 'Price is required';
         }
 
-        if(isNaN(formData.price)) {
+        if (isNaN(formData.price)) {
             newErrors.price = 'Price can only contain number inputs';
         }
 
-        if(formData.price < 0){
+        if (formData.price < 0) {
             newErrors.price = 'Price cannot be less than 0';
         }
 
@@ -135,7 +135,15 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type }) 
                     sx={{ marginBottom: 2, backgroundColor: 'white' }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <Button variant="contained" type="submit" color="success" id='submitButton' name='submitButton' sx={{ width: '40%', marginBottom: 6 }}>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        color="success"
+                        id='submitButton'
+                        name='submitButton'
+                        sx={{ width: '40%', marginBottom: 6 }}
+                        disabled={loading}
+                    >
                         {type === 'edit' ? 'Edit' : 'Add'} Turf
                     </Button>
                     <Link to='/turfs'>
