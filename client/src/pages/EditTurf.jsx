@@ -38,15 +38,20 @@ export default function EditTurf() {
 
     const fetchTurf = async () => {
         const res = await axios.get(`http://localhost:3000/turfs/${id}`);
-        setFormData((oldTurf) => {
-            return {
-                name: res.data.name,
-                price: res.data.price,
-                location: res.data.location,
-                description: res.data.description,
-                image: res.data.image
-            };
-        });
+        if(res.data !== null){
+            setFormData((oldTurf) => {
+                return {
+                    name: res.data.name,
+                    price: res.data.price,
+                    location: res.data.location,
+                    description: res.data.description,
+                    image: res.data.image
+                };
+            });
+        }
+        else{
+            navigate('/notFound');
+        }
     };
 
     const handleSubmit = async (evt) => {

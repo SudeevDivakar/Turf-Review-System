@@ -13,6 +13,7 @@ function App() {
         <Route path='/turfs/:id' element={<Turf />} />
         <Route path='/turfs/new' element={<NewTurf />} />
         <Route path='/turfs/edit/:id' element={<EditTurf />} />
+        <Route path='/notFound' element={<NotFound />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>

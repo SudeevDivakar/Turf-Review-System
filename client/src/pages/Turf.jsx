@@ -68,9 +68,14 @@ export default function Turf() {
 
     const fetchTurf = async () => {
         const res = await axios.get(`http://localhost:3000/turfs/${id}`);
-        setTurf((oldTurf) => {
-            return res.data;
-        });
+        if (res.data !== null) {
+            setTurf((oldTurf) => {
+                return res.data;
+            });
+        }
+        else {
+            navigate('/notFound');
+        }
     }
 
     const handleDelete = async (evt) => {                                 // Deleting a turf

@@ -54,7 +54,7 @@ app.use('/turfs', turfs);
 
 app.use('/turfs/:id/reviews', reviews);
 
-app.get('/pageNotFound', (req, res, next) => {
+app.get('/error', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
 });
 
