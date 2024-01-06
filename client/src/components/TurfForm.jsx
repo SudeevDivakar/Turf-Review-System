@@ -79,7 +79,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     onChange={handleChange}
                     error={!!errors.name}
                     helperText={errors.name}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
+                    sx={{ marginBottom: 2 }}
                 />
                 <TextField
                     label="&#8377;Price/Hour"
@@ -91,7 +91,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     onChange={handleChange}
                     error={!!errors.price}
                     helperText={errors.price}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
+                    sx={{ marginBottom: 2 }}
                 />
                 <TextField
                     label="Location"
@@ -105,7 +105,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     onChange={handleChange}
                     error={!!errors.location}
                     helperText={errors.location}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
+                    sx={{ marginBottom: 2 }}
                 />
                 <TextField
                     label="Description"
@@ -119,7 +119,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     onChange={handleChange}
                     error={!!errors.description}
                     helperText={errors.description}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
+                    sx={{ marginBottom: 2 }}
                 />
                 <TextField
                     label="Image URL"
@@ -132,7 +132,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     onChange={handleChange}
                     error={!!errors.image}
                     helperText={errors.image}
-                    sx={{ marginBottom: 2, backgroundColor: 'white' }}
+                    sx={{ marginBottom: 2 }}
                 />
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                     <Button

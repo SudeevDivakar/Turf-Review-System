@@ -73,7 +73,7 @@ export default function EditTurf() {
     };
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#EEF0E5' }}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <CssBaseline>
                 <ResponsiveAppBar />
                 <Box sx={{ textAlign: 'center' }}>
