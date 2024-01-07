@@ -7,6 +7,7 @@ const User = require('../models/userSchema.js');
 
 //Require utils
 const catchAsync = require('../utils/catchAsync.js');
+const passport = require('passport');
 
 
 //Routes
@@ -29,5 +30,19 @@ router.post('/register', catchAsync(async (req, res) => {
         }
     }
 }));
+
+
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        return res.json({ Error: true, message: 'Internal server error' });
+      }
+      if (!user) {
+        return res.json({ Error: true, message: 'Password or Username is Incorrect' });
+      }
+      return res.json({ Error: false });
+    })(req, res, next);
+  });
+  
 
 module.exports = router;

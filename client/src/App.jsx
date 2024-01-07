@@ -5,6 +5,7 @@ import NewTurf from './pages/NewTurf';
 import EditTurf from './pages/EditTurf';
 import NotFound from './pages/NotFound';
 import NewUser from './pages/NewUser';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/turfs/new' element={<NewTurf />} />
         <Route path='/turfs/edit/:id' element={<EditTurf />} />
         <Route path='/register' element={<NewUser />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/notFound' element={<NotFound />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
