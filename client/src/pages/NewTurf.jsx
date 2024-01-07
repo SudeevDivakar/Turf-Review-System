@@ -52,7 +52,7 @@ export default function NewTurf() {
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundImage: `url(${import.meta.env.BASE_URL}TurfBackground.jpg)`, backgroundSize: 'cover' }}>
             <CssBaseline />
             <ResponsiveAppBar />
-            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 5, mb: 4, padding: '2em 2em 0em 2em',  borderRadius: 4 }}>
+            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 5, mb: 4, padding: '2em 2em 0em 2em', borderRadius: 4 }}>
                 <h1>Add New Turf</h1>
                 <TurfForm handleSubmit={handleSubmit} formData={formData} setFormData={setFormData} type='add' loading={loading} />
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>

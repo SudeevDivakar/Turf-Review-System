@@ -80,7 +80,7 @@ export default function Login() {
                     setErrorSnackbarOpen(true);
                 }
             } catch (err) {
-                console.log('Error in Registering User', err);
+                console.log('Error in Logging In User', err);
             } finally {
                 setTimeout(() => {
                     setLoading(false);

@@ -19,14 +19,6 @@ const users = require('./routes/users.js');
 //Require Environment Variables
 require('dotenv').config();
 
-//Require passport
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
-
-//Requiring Models
-const User = require('./models/userSchema.js');
-
-
 //Connect to MongoDB
 mongoose.connect(process.env.DB_URL)
     .then(() => {
@@ -55,14 +47,6 @@ const sessionConfig = {
     }
 };
 app.use(session(sessionConfig));
-
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
 
 //Routing
 app.use('/',users);

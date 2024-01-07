@@ -1,48 +1,52 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
+const { hashPassword, comparePassword } = require('../utils/auth.js');
 
 //Requiring models
 const User = require('../models/userSchema.js');
 
 //Require utils
 const catchAsync = require('../utils/catchAsync.js');
-const passport = require('passport');
 
 
 //Routes
 router.post('/register', catchAsync(async (req, res) => {
     try {
         const { email, username, password } = req.body;
+        
         const emailValidation = Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } }).validate(email);
-        if(emailValidation.error){
-            throw new Error('Email Not Valid');
+        if (emailValidation.error) {
+            throw new Error('Invalid email format');
         }
-        const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
+
+        const emailExist = await User.findOne({email});
+        if (emailExist) {
+            throw new Error('Email Already Taken');
+        }
+
+        const usernameExist = await User.findOne({username});
+        if(usernameExist){
+            throw new Error('Username Already Taken');
+        }
+
+        const hashedPassword = await hashPassword(password);
+
+        const registeredUser = await User.create({ email, username, password: hashedPassword });
         res.json({ Error: false, registeredUser });
     }
-    catch(err){
-        if (err.message === 'Email Not Valid') {
-            res.json({ Error: true, message: 'Invalid email format' });
-        } else if (err.message === 'A user with the given username is already registered' || err.code === 11000) {
-            res.json({ Error: true, message: 'Credentials Already Taken' });
+    catch (err) {
+        if (err.message === 'Invalid email format') {
+            res.json({ Error: true, message: err.message });
+        } 
+        else if (err.message === 'Email Already Taken') {
+            res.json({ Error: true, message: err.message });
+        }
+        else if (err.message === 'Username Already Taken') {
+            res.json({ Error: true, message: err.message });
         }
     }
 }));
 
-
-router.post('/login', (req, res, next) => {
-    passport.authenticate('local', (err, user, info) => {
-      if (err) {
-        return res.json({ Error: true, message: 'Internal server error' });
-      }
-      if (!user) {
-        return res.json({ Error: true, message: 'Password or Username is Incorrect' });
-      }
-      return res.json({ Error: false });
-    })(req, res, next);
-  });
-  
 
 module.exports = router;
