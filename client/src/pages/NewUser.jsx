@@ -95,10 +95,10 @@ export default function NewUser() {
     }
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundImage: 'url(UserBackground.avif)', backgroundSize: 'cover' }}>
             <CssBaseline />
             <ResponsiveAppBar />
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 10, mb: 7, padding: '2em 2em 0em 2em',  borderRadius: 4 }}>
                 <h1>Register</h1>
                 <Box
                     component="form"
