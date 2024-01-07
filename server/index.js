@@ -14,9 +14,17 @@ const session = require('express-session');
 //Requiring routes
 const turfs = require('./routes/turfs.js');
 const reviews = require('./routes/reviews.js');
+const users = require('./routes/users.js');
 
 //Require Environment Variables
 require('dotenv').config();
+
+//Require passport
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+
+//Requiring Models
+const User = require('./models/userSchema.js');
 
 
 //Connect to MongoDB
@@ -48,8 +56,17 @@ const sessionConfig = {
 };
 app.use(session(sessionConfig));
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 //Routing
+app.use('/',users);
+
 app.use('/turfs', turfs);
 
 app.use('/turfs/:id/reviews', reviews);
