@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+//Require User Authorization
+const checkAuth = require('../middleware.js');
 
 //Require utils
 const catchAsync = require('../utils/catchAsync.js');
@@ -34,7 +36,7 @@ router.get('/', catchAsync(async (req, res) => {
 }));
 
 
-router.post('/new', validateTurf, catchAsync(async (req, res) => {
+router.post('/new', checkAuth, validateTurf, catchAsync(async (req, res) => {
     const turf = await Turf.create({
         name: req.body.name,
         image: req.body.image,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
@@ -8,6 +8,16 @@ import { CssBaseline, Box, Snackbar, Alert } from "@mui/material";
 
 export default function NewTurf() {
     const navigate = useNavigate();
+    useEffect(() => {
+        async function isLoggedIn() {
+            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
+            if(!user.data){
+                navigate('/login');
+            }
+        }
+        isLoggedIn();
+    }, [navigate]);
+
     const [formData, setFormData] = useState({
         name: '',
         price: 0,
@@ -34,7 +44,7 @@ export default function NewTurf() {
         evt.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.post(`http://localhost:3000/turfs/new`, formData);
+            const res = await axios.post(`http://localhost:3000/turfs/new`, formData, {withCredentials: true});
             setTimeout(() => {
                 navigate(`/turfs/${res.data._id}`);
             }, 1000);

@@ -37,7 +37,7 @@ export default function EditTurf() {
     };
 
     const fetchTurf = async () => {
-        const res = await axios.get(`http://localhost:3000/turfs/${id}`);
+        const res = await axios.get(`http://localhost:3000/turfs/${id}`, {withCredentials: true});
         if(res.data !== null){
             setFormData((oldTurf) => {
                 return {
@@ -58,7 +58,7 @@ export default function EditTurf() {
         evt.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, formData);
+            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, formData, {withCredentials: true});
             setTimeout(() => {
                 navigate(`/turfs/${res.data._id}`);
             }, 1000);

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button, Box, CssBaseline, Snackbar, Alert } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,6 +7,16 @@ import Footer from "../components/Footer";
 
 export default function Login() {
     const navigate = useNavigate();
+    useEffect(() => {
+        async function isLoggedIn() {
+            const user = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+            if (user.data) {
+                navigate('/turfs');
+            }
+        }
+        isLoggedIn();
+    }, [navigate]);
+
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         username: '',
@@ -68,7 +78,7 @@ export default function Login() {
         if (validateForm()) {
             try {
                 setLoading(true);
-                const res = await axios.post(`http://localhost:3000/login`, formData,{withCredentials: true});
+                const res = await axios.post(`http://localhost:3000/login`, formData, {withCredentials: true});
                 if (res.data.Error) {
                     setErrorName(res.data.message);
                     setErrorSnackbarOpen(true);
