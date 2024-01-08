@@ -115,7 +115,7 @@ export default function NewUser() {
                         onChange={handleChange}
                         error={!!errors.username}
                         helperText={errors.username}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ marginBottom: 3 }}
                     />
                     <TextField
                         label="Email"
@@ -127,7 +127,7 @@ export default function NewUser() {
                         onChange={handleChange}
                         error={!!errors.email}
                         helperText={errors.email}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ marginBottom: 3 }}
                     />
                     <TextField
                         label="Password"
@@ -140,7 +140,7 @@ export default function NewUser() {
                         onChange={handleChange}
                         error={!!errors.password}
                         helperText={errors.password}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ marginBottom: 3 }}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Button
@@ -149,12 +149,13 @@ export default function NewUser() {
                             color="success"
                             id='submitButton'
                             name='submitButton'
-                            sx={{ width: '40%', marginBottom: 6 }}
+                            sx={{ width: '40%', marginBottom: 1 }}
                             disabled={loading}
                         >
                             Register User
                         </Button>
                     </Box>
+                    <p>Already have an account? <Link to='/login' style={{color:'blue'}}>Login</Link></p>
                 </Box>
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>

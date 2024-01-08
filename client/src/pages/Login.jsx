@@ -68,16 +68,16 @@ export default function Login() {
         if (validateForm()) {
             try {
                 setLoading(true);
-                const res = await axios.post(`http://localhost:3000/login`, formData);
-                if (!res.data.Error) {
+                const res = await axios.post(`http://localhost:3000/login`, formData,{withCredentials: true});
+                if (res.data.Error) {
+                    setErrorName(res.data.message);
+                    setErrorSnackbarOpen(true);
+                }
+                else {
                     setTimeout(() => {
                         navigate(`/turfs`);
                     }, 1000);
                     handleClick();
-                }
-                else {
-                    setErrorName(res.data.message);
-                    setErrorSnackbarOpen(true);
                 }
             } catch (err) {
                 console.log('Error in Logging In User', err);
@@ -110,7 +110,7 @@ export default function Login() {
                         onChange={handleChange}
                         error={!!errors.username}
                         helperText={errors.username}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ marginBottom: 4 }}
                     />         
                     <TextField
                         label="Password"
@@ -123,7 +123,7 @@ export default function Login() {
                         onChange={handleChange}
                         error={!!errors.password}
                         helperText={errors.password}
-                        sx={{ marginBottom: 2 }}
+                        sx={{ marginBottom: 4 }}
                     />
                     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Button
@@ -132,12 +132,13 @@ export default function Login() {
                             color="success"
                             id='submitButton'
                             name='submitButton'
-                            sx={{ width: '40%', marginBottom: 6 }}
+                            sx={{ width: '40%', marginBottom: 2 }}
                             disabled={loading}
                         >
                             Login
                         </Button>
                     </Box>
+                    <p>Don't have an account? <Link to='/register' style={{color: 'blue'}}>Register</Link></p>
                 </Box>
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
