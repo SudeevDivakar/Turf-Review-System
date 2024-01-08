@@ -8,8 +8,8 @@ const ExpressError = require('./utils/ExpressError.js');
 // Used to recieve requests from other servers 
 const cors = require('cors');
 
-// Require session
-const session = require('express-session');
+// Require Cookie Parser
+const cookieParser = require('cookie-parser');
 
 //Requiring routes
 const turfs = require('./routes/turfs.js');
@@ -35,21 +35,15 @@ const app = express();
 
 //Configure Express app & Other Middleware
 app.use(express.json());
-app.use(cors());
-const sessionConfig = {
-    secret: 'thisShouldBeABetterSecret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        httpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,                       //Date.now() is in milliseconds and we add on how long we want it to last (also in milliseconds)
-        maxAge: 1000 * 60 * 60 * 24 * 7
-    }
-};
-app.use(session(sessionConfig));
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: false }))
 
 //Routing
-app.use('/',users);
+app.use('/', users);
 
 app.use('/turfs', turfs);
 
@@ -60,7 +54,7 @@ app.get('/error', (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    const { message = 'Something Went Wrong' , statusCode = 500 } = err;
+    const { message = 'Something Went Wrong', statusCode = 500 } = err;
     res.status(statusCode).send(message);
 });
 
