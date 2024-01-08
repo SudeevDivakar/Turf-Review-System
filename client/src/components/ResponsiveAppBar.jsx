@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -8,34 +10,68 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import { Link } from 'react-router-dom';
+import { MenuItem, Snackbar, Alert } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 
 const pages = [
   { label: 'Home', link: '/' },
   { label: 'All Turfs', link: '/turfs' },
   { label: 'New Turf', link: '/turfs/new' },
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export default function ResponsiveAppBar() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [user, setUser] = React.useState({});
+  const [open, setOpen] = React.useState(false);
+
+  useEffect(() => {
+    async function isLoggedIn() {
+      const userData = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+      setUser(userData.data);
+    }
+    isLoggedIn();
+  }, []);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const logout = async () => {
+    try {
+      const res = await axios.post('http://localhost:3000/logout', null, {
+        withCredentials: true,
+      });
+      handleClick();
+      setTimeout(() => {
+        if (res.data.message === 'Logged out successfully') {
+          axios.get('http://localhost:3000/profile', { withCredentials: true })
+            .then(userData => setUser(userData.data))
+            .then(navigate('/login'));
+        }
+      }, 2000);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
+  
 
   return (
     <AppBar position="sticky" sx={{ backgroundColor: '#303030' }}>
@@ -136,8 +172,43 @@ export default function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
+          {!!user ? (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button
+                onClick={logout}
+                color="inherit"
+                sx={{ marginLeft: 2 }}
+              >
+                Logout
+              </Button>
+            </Box>
+          ) : (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button
+                component={Link}
+                to="/login"
+                color="inherit"
+                sx={{ marginLeft: 2 }}
+              >
+                Login
+              </Button>
+              <Button
+                component={Link}
+                to="/register"
+                color="inherit"
+                sx={{ marginLeft: 2 }}
+              >
+                Register
+              </Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Successfully Logged Out!
+        </Alert>
+      </Snackbar>
     </AppBar>
   );
 }

@@ -78,6 +78,10 @@ router.post('/login', catchAsync(async (req, res) => {
     }
 }));
 
+router.post('/logout', (req, res) => {
+    res.clearCookie('token').json({ message: 'Logged out successfully' });
+})
+
 router.get('/profile', async(req, res) => {
     const { token } = req.cookies;
     if(token){
