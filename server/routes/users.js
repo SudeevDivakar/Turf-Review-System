@@ -37,7 +37,10 @@ router.post('/register', catchAsync(async (req, res) => {
         const hashedPassword = await hashPassword(password);
 
         const registeredUser = await User.create({ email, username, password: hashedPassword });
-        res.json({ Error: false, registeredUser });
+        jwt.sign({ username: registeredUser.username, id: registeredUser._id, email: registeredUser.email }, process.env.JWT_SECRET, { expiresIn: '2d' }, (err, token) => {
+            if(err) throw err;
+            res.cookie('token', token).json({ Error: false, registeredUser });
+        })
     }
     catch (err) {
         if (err.message === 'Invalid email format') {

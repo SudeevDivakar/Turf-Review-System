@@ -54,7 +54,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 }));
 
 
-router.patch('/:id', validateTurf, catchAsync(async (req, res) => {
+router.patch('/:id', checkAuth, validateTurf, catchAsync(async (req, res) => {
     const newTurf = await Turf.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
     res.json(newTurf);
 }));

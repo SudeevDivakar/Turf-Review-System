@@ -10,6 +10,17 @@ export default function EditTurf() {
     const navigate = useNavigate();
     const { id } = useParams();
 
+    useEffect(() => {
+        async function isLoggedIn() {
+            setRedirectPath(window.location.pathname);
+            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
+            if(!user.data){
+                navigate('/login');
+            }
+        }
+        isLoggedIn();
+    }, [navigate]);
+
     const [formData, setFormData] = useState({
         name: '',
         price: 0,
