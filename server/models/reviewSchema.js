@@ -7,6 +7,10 @@ const reviewSchema = new Schema({
     turfId: {
         type: Schema.Types.ObjectId,
         ref: 'Turf'
+    },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 

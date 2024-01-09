@@ -134,14 +134,14 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     helperText={errors.image}
                     sx={{ marginBottom: 2 }}
                 />
-                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', mb: 4, mt: 1 }}>
                     <Button
                         variant="contained"
                         type="submit"
                         color="success"
                         id='submitButton'
                         name='submitButton'
-                        sx={{ width: '40%', marginBottom: 6 }}
+                        sx={{ width: '40%'}}
                         disabled={loading}
                     >
                         {type === 'edit' ? 'Edit' : 'Add'} Turf

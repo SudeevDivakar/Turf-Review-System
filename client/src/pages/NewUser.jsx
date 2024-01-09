@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Button, Box, CssBaseline, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Box, CssBaseline, Snackbar, Alert, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
@@ -82,7 +82,7 @@ export default function NewUser() {
         if (validateForm()) {
             try {
                 setLoading(true);
-                const res = await axios.post(`http://localhost:3000/register`, formData, {withCredentials: true});
+                const res = await axios.post(`http://localhost:3000/register`, formData, { withCredentials: true });
                 if (!res.data.Error) {
                     setTimeout(() => {
                         navigate(`/turfs`);
@@ -107,7 +107,7 @@ export default function NewUser() {
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundImage: 'url(UserBackground.avif)', backgroundSize: 'cover' }}>
             <CssBaseline />
             <ResponsiveAppBar />
-            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 10, mb: 7, padding: '2em 2em 0em 2em',  borderRadius: 4 }}>
+            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 10, mb: 7, padding: '2em 2em 0em 2em', borderRadius: 4 }}>
                 <h1>Register</h1>
                 <Box
                     component="form"
@@ -164,7 +164,9 @@ export default function NewUser() {
                             Register User
                         </Button>
                     </Box>
-                    <p>Already have an account? <Link to='/login' style={{color:'blue'}}>Login</Link></p>
+                    <Typography variant="body1" sx={{ mb: 3, mt: 2}}>
+                        Already have an account? <Link to="/login" style={{ color: 'blue' }}>Login</Link>
+                    </Typography>
                 </Box>
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>

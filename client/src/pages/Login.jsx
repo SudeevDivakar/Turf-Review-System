@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { TextField, Button, Box, CssBaseline, Snackbar, Alert } from '@mui/material';
+import { TextField, Button, Box, CssBaseline, Snackbar, Alert, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ResponsiveAppBar from "../components/ResponsiveAppBar";
@@ -78,7 +78,7 @@ export default function Login() {
         if (validateForm()) {
             try {
                 setLoading(true);
-                const res = await axios.post(`http://localhost:3000/login`, formData, {withCredentials: true});
+                const res = await axios.post(`http://localhost:3000/login`, formData, { withCredentials: true });
                 if (res.data.Error) {
                     setErrorName(res.data.message);
                     setErrorSnackbarOpen(true);
@@ -103,7 +103,7 @@ export default function Login() {
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundImage: 'url(UserBackground.avif)', backgroundSize: 'cover' }}>
             <CssBaseline />
             <ResponsiveAppBar />
-            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 10, mb: 7, padding: '2em 2em 1em 2em',  borderRadius: 4 }}>
+            <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 10, mb: 7, padding: '2em 2em 1em 2em', borderRadius: 4 }}>
                 <h1>Login</h1>
                 <Box
                     component="form"
@@ -121,7 +121,7 @@ export default function Login() {
                         error={!!errors.username}
                         helperText={errors.username}
                         sx={{ marginBottom: 4 }}
-                    />         
+                    />
                     <TextField
                         label="Password"
                         variant="outlined"
@@ -148,7 +148,9 @@ export default function Login() {
                             Login
                         </Button>
                     </Box>
-                    <p>Don't have an account? <Link to='/register' style={{color: 'blue'}}>Register</Link></p>
+                    <Typography variant="body1" sx={{mt: 1.5, mb: 1.5}}>
+                        Don't have an account? <Link to="/register" style={{ color: 'blue' }}>Register</Link>
+                    </Typography>
                 </Box>
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>

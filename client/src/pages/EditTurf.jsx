@@ -10,11 +10,23 @@ export default function EditTurf() {
     const navigate = useNavigate();
     const { id } = useParams();
 
+    const [errorOpen, setErrorOpen] = useState(false);
+
+    const handleErrorClick = () => {
+        setErrorOpen(true);
+    };
+
+    const handleErrorClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setErrorOpen(false);
+    };
+
     useEffect(() => {
         async function isLoggedIn() {
-            setRedirectPath(window.location.pathname);
-            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
-            if(!user.data){
+            const user = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+            if (!user.data) {
                 navigate('/login');
             }
         }
@@ -48,8 +60,8 @@ export default function EditTurf() {
     };
 
     const fetchTurf = async () => {
-        const res = await axios.get(`http://localhost:3000/turfs/${id}`, {withCredentials: true});
-        if(res.data !== null){
+        const res = await axios.get(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
+        if (res.data !== null) {
             setFormData((oldTurf) => {
                 return {
                     name: res.data.name,
@@ -60,7 +72,7 @@ export default function EditTurf() {
                 };
             });
         }
-        else{
+        else {
             navigate('/notFound');
         }
     };
@@ -69,11 +81,19 @@ export default function EditTurf() {
         evt.preventDefault();
         try {
             setLoading(true);
-            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, formData, {withCredentials: true});
-            setTimeout(() => {
-                navigate(`/turfs/${res.data._id}`);
-            }, 1000);
-            handleClick();
+            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, formData, { withCredentials: true });
+            if (res.data.Error) {
+                setTimeout(() => {
+                    navigate('/turfs');
+                },1000);
+                handleErrorClick();
+            }
+            else {
+                setTimeout(() => {
+                    navigate(`/turfs/${res.data.newTurf._id}`);
+                }, 1000);
+                handleClick();
+            }
         } catch (err) {
             console.log('Error in Updating Turf', err);
         } finally {
@@ -87,12 +107,17 @@ export default function EditTurf() {
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between', backgroundImage: `url(${import.meta.env.BASE_URL}TurfBackground.jpg)`, backgroundSize: 'cover' }}>
             <CssBaseline>
                 <ResponsiveAppBar />
-                <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 5, mb: 4, padding: '2em 2em 0em 2em',  borderRadius: 4 }}>
+                <Box sx={{ textAlign: 'center', backgroundColor: 'white', mt: 5, mb: 4, padding: '2em 2em 0em 2em', borderRadius: 4 }}>
                     <h1>Edit Turf</h1>
                     <TurfForm handleSubmit={handleSubmit} formData={formData} setFormData={setFormData} type='edit' loading={loading} />
                     <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                             Turf Successfully Edited!
+                        </Alert>
+                    </Snackbar>
+                    <Snackbar open={errorOpen} autoHideDuration={1000} onClose={handleErrorClose}>
+                        <Alert onClose={handleErrorClose} severity="error" sx={{ width: '100%' }}>
+                            You Do Not Have Permission to do That
                         </Alert>
                     </Snackbar>
                 </Box>

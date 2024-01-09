@@ -17,6 +17,21 @@ export default function Turf() {
         rating: 2.5
     });
 
+    const [isUser, setIsUser] = useState(false);
+    useEffect(() => {
+        async function isLoggedIn() {
+            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
+            if(!user.data){
+                setIsUser(false);
+            }
+            else{
+                setIsUser(true);
+            }
+        }
+        isLoggedIn();
+    })
+
+
     useEffect(() => {
         fetchTurf();
         const isSnackbarOpen = localStorage.getItem('snackbarOpen') === 'true';
@@ -129,7 +144,7 @@ export default function Turf() {
                     <ShowCard turf={turf} handleDelete={handleDelete} id={id} />
                 </Box>
                 <Box>
-                    <ReviewForm formData={formData} setFormData={setFormData} handleReviewSubmit={handleReviewSubmit} />
+                    {isUser && <ReviewForm formData={formData} setFormData={setFormData} handleReviewSubmit={handleReviewSubmit} />}
                     {turf.reviews.map((review) => (
                         <Review key={review._id} review={review} deleteComment={deleteComment} />
                     ))}

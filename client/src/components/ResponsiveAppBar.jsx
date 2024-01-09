@@ -66,7 +66,7 @@ export default function ResponsiveAppBar() {
             .then(userData => setUser(userData.data))
             .then(navigate('/login'));
         }
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error('Error logging out:', error);
     }
@@ -204,7 +204,7 @@ export default function ResponsiveAppBar() {
           )}
         </Toolbar>
       </Container>
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+      <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
           Successfully Logged Out!
         </Alert>

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: '../.env' });
 
 //Requiring BCRYPT util functions
 const { hashPassword, comparePassword } = require('../utils/auth.js');
