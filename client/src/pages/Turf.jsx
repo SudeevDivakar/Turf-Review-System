@@ -20,11 +20,11 @@ export default function Turf() {
     const [isUser, setIsUser] = useState(false);
     useEffect(() => {
         async function isLoggedIn() {
-            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
-            if(!user.data){
+            const user = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+            if (!user.data) {
                 setIsUser(false);
             }
-            else{
+            else {
                 setIsUser(true);
             }
         }
@@ -82,13 +82,18 @@ export default function Turf() {
     };
 
     const fetchTurf = async () => {
-        const res = await axios.get(`http://localhost:3000/turfs/${id}`, {withCredentials: true});
-        if (res.data !== null) {
-            setTurf((oldTurf) => {
-                return res.data;
-            });
+        try {
+            const res = await axios.get(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
+            if (res.data !== null) {
+                setTurf((oldTurf) => {
+                    return res.data;
+                });
+            }
+            else {
+                navigate('/notFound');
+            }
         }
-        else {
+        catch {
             navigate('/notFound');
         }
     }
@@ -96,7 +101,7 @@ export default function Turf() {
     const handleDelete = async (evt) => {                                 // Deleting a turf
         evt.preventDefault();
         try {
-            await axios.delete(`http://localhost:3000/turfs/${id}`, {withCredentials: true});
+            await axios.delete(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
             setTimeout(() => {
                 navigate('/turfs');
             }, 1000);
@@ -109,7 +114,7 @@ export default function Turf() {
     const handleReviewSubmit = async (evt) => {                         // Adding a comment
         evt.preventDefault();
         try {
-            const res = await axios.post(`http://localhost:3000/turfs/${id}/reviews`, formData, {withCredentials: true});
+            const res = await axios.post(`http://localhost:3000/turfs/${id}/reviews`, formData, { withCredentials: true });
             handleClick();
             if (window.location.pathname === `/turfs/${id}`) {
                 window.location.reload();
@@ -123,7 +128,7 @@ export default function Turf() {
 
     const deleteComment = async (reviewId) => {                     // Deleting a Comment
         try {
-            await axios.delete(`http://localhost:3000/turfs/${id}/reviews/${reviewId}`, {withCredentials: true});
+            await axios.delete(`http://localhost:3000/turfs/${id}/reviews/${reviewId}`, { withCredentials: true });
             handleDeleteSnackbarClick();
             if (window.location.pathname === `/turfs/${id}`) {
                 window.location.reload();

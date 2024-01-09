@@ -60,19 +60,24 @@ export default function EditTurf() {
     };
 
     const fetchTurf = async () => {
-        const res = await axios.get(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
-        if (res.data !== null) {
-            setFormData((oldTurf) => {
-                return {
-                    name: res.data.name,
-                    price: res.data.price,
-                    location: res.data.location,
-                    description: res.data.description,
-                    image: res.data.image
-                };
-            });
+        try {
+            const res = await axios.get(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
+            if (res.data !== null) {
+                setFormData((oldTurf) => {
+                    return {
+                        name: res.data.name,
+                        price: res.data.price,
+                        location: res.data.location,
+                        description: res.data.description,
+                        image: res.data.image
+                    };
+                });
+            }
+            else {
+                navigate('/notFound');
+            }
         }
-        else {
+        catch {
             navigate('/notFound');
         }
     };
@@ -85,7 +90,7 @@ export default function EditTurf() {
             if (res.data.Error) {
                 setTimeout(() => {
                     navigate('/turfs');
-                },1000);
+                }, 1000);
                 handleErrorClick();
             }
             else {
