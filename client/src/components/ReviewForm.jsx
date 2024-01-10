@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Slider, TextField, Box, Button, Typography } from "@mui/material";
+import StarRating from "./StarRating";
 
 export default function ReviewForm({ handleReviewSubmit, formData, setFormData }) {
-    
+
     const [errors, setErrors] = useState({});
 
     const validateForm = () => {
@@ -42,19 +43,7 @@ export default function ReviewForm({ handleReviewSubmit, formData, setFormData }
             <Typography variant="h6" gutterBottom>
                 Rating
             </Typography>
-            <Slider
-                aria-label="Rating"
-                value={formData.rating}
-                valueLabelDisplay="auto"
-                defaultValue={2.5}
-                step={0.5}
-                id="rating"
-                name="rating"
-                min={1}
-                max={5}
-                onChange={(e, value) => setFormData({ ...formData, rating: value })}
-                sx={{mb: 2}}
-            />
+            <StarRating formData={formData} setFormData={setFormData} />
             <TextField
                 label="Review"
                 variant="outlined"
@@ -69,7 +58,7 @@ export default function ReviewForm({ handleReviewSubmit, formData, setFormData }
                 helperText={errors.review}
                 sx={{ mb: 3, backgroundColor: "white", width: '100%' }}
             />
-            <Button variant="contained" color="success" type="submit" id="submitButton" name="submitButton"  sx={{ width: '50%' , mb: 4 }}>
+            <Button variant="contained" color="success" type="submit" id="submitButton" name="submitButton" sx={{ width: '50%', mb: 4 }}>
                 Add Review
             </Button>
         </Box>
