@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Typography, List, ListItem, ListItemText, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ImageIcon from '@mui/icons-material/Image';
+
 
 export default function TurfForm({ handleSubmit, formData, setFormData, type, loading }) {
     const [errors, setErrors] = useState({});
@@ -15,6 +19,22 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     };
 
+    const handleImageDelete = (imageToDelete) => {
+        setFormData((prevFormData) => ({
+            ...prevFormData,
+            image: prevFormData.image.filter((image) => image !== imageToDelete),
+        }));
+    };
+
+    const handleImageChange = (evt) => {
+        if (evt.target.files[0] !== undefined) {
+            setFormData((oldData) => {
+                oldData.image.push(evt.target.files[0]);
+                return oldData;
+            })
+        }
+        setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
+    }
     const validateForm = () => {
         const newErrors = {};
 
@@ -43,8 +63,8 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
             newErrors.description = 'Description is required';
         }
 
-        if (!formData.image) {
-            newErrors.image = 'Image URL is required';
+        if (formData.image.length === 0) {
+            newErrors.image = 'Image is required';
         }
 
         setErrors(newErrors);
@@ -64,10 +84,10 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
 
     return (
         <>
-            <Box
-                component="form"
+            <form
                 onSubmit={handleFormSubmit}
-                sx={{ width: '35rem', display: 'flex', flexDirection: 'column' }}
+                encType="multipart/form-data"
+                style={{ width: '35rem', display: 'flex', flexDirection: 'column' }}
             >
                 <TextField
                     label="Name"
@@ -121,7 +141,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     helperText={errors.description}
                     sx={{ marginBottom: 2 }}
                 />
-                <TextField
+                {/* <TextField
                     label="Image URL"
                     variant="outlined"
                     type="text"
@@ -133,7 +153,44 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     error={!!errors.image}
                     helperText={errors.image}
                     sx={{ marginBottom: 2 }}
+                /> */}
+                <input
+                    style={{ display: 'none' }}
+                    accept=".jpg, .jpeg, .png"
+                    id="contained-button-file"
+                    multiple
+                    type="file"
+                    onChange={handleImageChange}
                 />
+                <label htmlFor="contained-button-file" style={{ textAlign: 'left' }}>
+                    <Button
+                        variant="contained"
+                        component="span"
+                        startIcon={<CloudUploadIcon />}
+                        sx={{ marginBottom: '0.5rem', width: '50%' }}
+                    >
+                        Upload Images
+                    </Button>
+                </label>
+                <List>
+                    {formData.image.map((image) => (
+                        <ListItem key={image.name} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <ImageIcon sx={{ mr: 1 }} />
+                                <ListItemText primary={image.name} sx={{ width: '18rem' }} />
+                                <IconButton edge="end" aria-label="delete" size="small" onClick={() => handleImageDelete(image)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
+                        </ListItem>
+                    ))}
+                </List>
+
+                {errors.image && (
+                    <Typography variant="body2" color="error" sx={{ textAlign: 'left', marginTop: '0.5rem', marginLeft: '0.5rem' }}>
+                        {errors.image}
+                    </Typography>
+                )}
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', mb: 4, mt: 1 }}>
                     <Button
                         variant="contained"
@@ -141,7 +198,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                         color="success"
                         id='submitButton'
                         name='submitButton'
-                        sx={{ width: '40%'}}
+                        sx={{ width: '40%' }}
                         disabled={loading}
                     >
                         {type === 'edit' ? 'Edit' : 'Add'} Turf
@@ -150,7 +207,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                         <Button variant='contained' id='backButton' name='backButton' color='primary'>Back To Turfs</Button>
                     </Link>
                 </Box>
-            </Box>
+            </form>
         </>
     );
 }

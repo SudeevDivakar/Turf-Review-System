@@ -10,8 +10,8 @@ export default function NewTurf() {
     const navigate = useNavigate();
     useEffect(() => {
         async function isLoggedIn() {
-            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
-            if(!user.data){
+            const user = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+            if (!user.data) {
                 navigate('/login');
             }
         }
@@ -23,7 +23,7 @@ export default function NewTurf() {
         price: 0,
         location: '',
         description: '',
-        image: ''
+        image: []
     });
 
     const [open, setOpen] = useState(false);
@@ -42,9 +42,17 @@ export default function NewTurf() {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+        const newFormData = new FormData();
+        newFormData.append('name', formData.name);
+        newFormData.append('price', formData.price);
+        newFormData.append('location', formData.location);
+        newFormData.append('description', formData.description);
+        formData.image.forEach((i, index) => {
+            newFormData.append(`image`, i)
+        })
         try {
             setLoading(true);
-            const res = await axios.post(`http://localhost:3000/turfs/new`, formData, {withCredentials: true});
+            const res = await axios.post(`http://localhost:3000/turfs/new`, newFormData, { withCredentials: true });
             setTimeout(() => {
                 navigate(`/turfs/${res.data._id}`);
             }, 1000);

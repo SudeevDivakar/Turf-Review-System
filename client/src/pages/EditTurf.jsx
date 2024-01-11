@@ -38,7 +38,7 @@ export default function EditTurf() {
         price: 0,
         location: '',
         description: '',
-        image: ''
+        image: []
     });
 
     useEffect(() => {

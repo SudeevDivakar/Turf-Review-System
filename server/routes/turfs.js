@@ -10,11 +10,18 @@ const catchAsync = require('../utils/catchAsync.js');
 //Requiring controllers
 const turfs = require('../controllers/turfs.js');
 
+const multer = require('multer');
+const { storage } = require('../cloudinary/index.js');
+const upload = multer({ storage })
 
 //Routes
 router.get('/', catchAsync(turfs.getAllTurfs));
 
-router.post('/new', checkAuth, validateTurf, catchAsync(turfs.addTurf));
+// router.post('/new', checkAuth, validateTurf, catchAsync(turfs.addTurf));
+router.post('/new', upload.array('image'), (req, res) => {
+    console.log(req.body);
+    console.log(req.files);
+});
 
 router.get('/:id', catchAsync(turfs.getTurf));
 
