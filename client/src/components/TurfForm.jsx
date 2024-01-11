@@ -141,19 +141,6 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     helperText={errors.description}
                     sx={{ marginBottom: 2 }}
                 />
-                {/* <TextField
-                    label="Image URL"
-                    variant="outlined"
-                    type="text"
-                    id="image"
-                    name="image"
-                    autoComplete='off'
-                    value={formData.image}
-                    onChange={handleChange}
-                    error={!!errors.image}
-                    helperText={errors.image}
-                    sx={{ marginBottom: 2 }}
-                /> */}
                 <input
                     style={{ display: 'none' }}
                     accept=".jpg, .jpeg, .png"
@@ -177,7 +164,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                         <ListItem key={image.name} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <ImageIcon sx={{ mr: 1 }} />
-                                <ListItemText primary={image.name} sx={{ width: '18rem' }} />
+                                {type === 'edit' ? <ListItemText primary={image.originalname} sx={{ width: '18rem' }} /> : <ListItemText primary={image.name} sx={{ width: '18rem' }} />}
                                 <IconButton edge="end" aria-label="delete" size="small" onClick={() => handleImageDelete(image)}>
                                     <DeleteIcon />
                                 </IconButton>

@@ -4,7 +4,13 @@ const Schema = mongoose.Schema;
 
 const turfSchema = new Schema({
     name: String,
-    image: String,
+    image: [
+        { 
+            url: String,
+            filename: String,
+            originalname: String
+        }
+    ],
     price: Number,
     rating: Number,
     description: String,

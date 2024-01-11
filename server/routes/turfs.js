@@ -17,11 +17,7 @@ const upload = multer({ storage })
 //Routes
 router.get('/', catchAsync(turfs.getAllTurfs));
 
-// router.post('/new', checkAuth, validateTurf, catchAsync(turfs.addTurf));
-router.post('/new', upload.array('image'), (req, res) => {
-    console.log(req.body);
-    console.log(req.files);
-});
+router.post('/new', checkAuth, upload.array('image'), validateTurf, catchAsync(turfs.addTurf));
 
 router.get('/:id', catchAsync(turfs.getTurf));
 

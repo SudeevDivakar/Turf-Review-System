@@ -14,7 +14,7 @@ export default function Turf() {
     const [turf, setTurf] = useState({ reviews: [] });
     const [formData, setFormData] = useState({
         review: "",
-        rating: 2.5
+        rating: 0
     });
 
     const [isUser, setIsUser] = useState(false);

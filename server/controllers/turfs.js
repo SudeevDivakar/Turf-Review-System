@@ -23,10 +23,10 @@ const addTurf = async (req, res) => {
             username = user.username;
         })
     }
-    const user = await User.findOne({ username })
+    const user = await User.findOne({ username });
     const turf = await Turf.create({
         name: req.body.name,
-        image: req.body.image,
+        image: req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname })),
         price: req.body.price,
         description: req.body.description,
         location: req.body.location,

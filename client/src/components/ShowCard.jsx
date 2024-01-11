@@ -9,6 +9,9 @@ import { Typography, Rating } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { teal } from '@mui/material/colors';
 import axios from 'axios';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const color = teal[200];
 const hoverColor = teal[300];
@@ -17,27 +20,43 @@ export default function ShowCard({ turf, handleDelete, id }) {
     const [isUser, setIsUser] = React.useState(false);
     useEffect(() => {
         async function isLoggedIn() {
-            const user = await axios.get('http://localhost:3000/profile', {withCredentials: true}); 
-            if(!user.data){
+            const user = await axios.get('http://localhost:3000/profile', { withCredentials: true });
+            if (!user.data) {
                 setIsUser(false);
             }
-            else if(turf.author && user.data.username === turf.author.username){
+            else if (turf.author && user.data.username === turf.author.username) {
                 setIsUser(true);
             }
-            else{
+            else {
                 setIsUser(false);
             }
         }
         isLoggedIn();
-    })
+    }, [turf.author]);
+
+    const sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    };
 
     return (
-        <Card sx={{ width: '34rem', margin: 'auto', mt: 3 }}>
-            <CardMedia
-                sx={{ height: 300 }}
-                image={`${turf.image}`}
-                title="Turf Photo"
-            />
+        <Card className="carousel-card" sx={{ width: '34rem', margin: 'auto', mt: 3 }}>
+            {turf.image && turf.image.length > 0 && (
+                <Slider {...sliderSettings}>
+                    {turf.image.map((img, index) => (
+                        <CardMedia
+                            key={index}
+                            component="img"
+                            alt="Turf Photo"
+                            height="300"
+                            image={img.url}
+                        />
+                    ))}
+                </Slider>
+            )}
             <CardContent>
                 <Typography gutterBottom variant="h4" component="div">
                     {turf.name}
@@ -51,12 +70,12 @@ export default function ShowCard({ turf, handleDelete, id }) {
                 <Typography variant="body2" color="text.secondary">
                     Price: <b>&#8377;{turf.price}/hour</b>
                 </Typography>
-                <Rating name="read-only" value={turf.rating || 0} precision={0.5} readOnly sx={{mt: 1}}/>
-                <Typography variant="body2" sx={{mt:2}} color="text.secondary">
+                <Rating name="read-only" value={turf.rating || 0} precision={0.5} readOnly sx={{ mt: 1 }} />
+                <Typography variant="body2" sx={{ mt: 2 }} color="text.secondary">
                     Submitted By: <b>{turf.author ? turf.author.username : "Unknown User"}</b>
                 </Typography>
             </CardContent>
-            {isUser && <CardActions sx={{ justifyContent: 'center',mb:2 }}>
+            {isUser && <CardActions sx={{ justifyContent: 'center', mb: 2 }}>
                 <Link to={`/turfs/edit/${id}`}><Button size="small" variant='contained' sx={{
                     backgroundColor: color, '&:hover': {
                         backgroundColor: hoverColor

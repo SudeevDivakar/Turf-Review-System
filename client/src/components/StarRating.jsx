@@ -1,5 +1,4 @@
 import { Rating } from '@mui/material';
-import { useState } from 'react';
 
 export default function StarRating({ formData, setFormData }){
     
