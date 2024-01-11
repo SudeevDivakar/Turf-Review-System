@@ -5,7 +5,9 @@ const User = require('../models/userSchema.js');
 const Turf = require('../models/turfSchema.js');
 
 //Requiring .env file
-require('dotenv').config({ path: '../.env' });
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: '../.env' });
+}
 
 const getAllTurfs = async (req, res) => {
     const turfs = await Turf.find({});

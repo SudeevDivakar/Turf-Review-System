@@ -6,7 +6,9 @@ const Review = require('../models/reviewSchema.js');
 const User = require('../models/userSchema.js');
 
 //Requiring .env file
-require('dotenv').config({ path: '../.env' });
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: '../.env' });
+}
 
 const createReview = async (req, res) => {
     const { token } = req.cookies;

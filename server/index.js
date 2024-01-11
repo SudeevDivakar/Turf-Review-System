@@ -17,7 +17,9 @@ const reviews = require('./routes/reviews.js');
 const users = require('./routes/users.js');
 
 //Require Environment Variables
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 //Connect to MongoDB
 mongoose.connect(process.env.DB_URL)

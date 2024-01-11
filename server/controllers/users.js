@@ -8,7 +8,9 @@ const { hashPassword, comparePassword } = require('../utils/auth.js');
 const User = require('../models/userSchema.js');
 
 //Requiring .env file
-require('dotenv').config({ path: '../.env' });
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config({ path: '../.env' });
+}
 
 const registerUser = async (req, res) => {
     try {
@@ -77,7 +79,7 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = (req, res) => {
-    res.clearCookie('token').json({ message: 'Logged out successfully' });
+    res.clearCookie('token').status(200).json({ message: 'Logged out successfully' });
 };
 
 const getUserProfile = async(req, res) => {

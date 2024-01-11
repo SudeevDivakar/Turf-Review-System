@@ -12,7 +12,9 @@ const { turfSchema, reviewSchema } = require('./schemas.js');
 const ExpressError = require('./utils/ExpressError.js');
 
 //Require .env contents
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config();
+}
 
 //Middleware
 const checkAuth = async (req, res, next) => {
