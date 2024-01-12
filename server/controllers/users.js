@@ -9,7 +9,7 @@ const User = require('../models/userSchema.js');
 
 //Requiring .env file
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: '../.env' });
+    require('dotenv').config();
 }
 
 const registerUser = async (req, res) => {

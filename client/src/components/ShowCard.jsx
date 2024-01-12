@@ -34,13 +34,48 @@ export default function ShowCard({ turf, handleDelete, id }) {
         isLoggedIn();
     }, [turf.author]);
 
+    const NextArrow = (props) => {
+        const { className, style, onClick } = props;
+        return (
+            <div
+                className={className}
+                style={{ ...style, display: 'block', borderRadius: '50%', position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)' }}
+                onClick={onClick}
+            />
+        );
+    };
+
+    const PrevArrow = ({ className, onClick }) => {
+        return (
+            <div
+                className={className}
+                style={{
+                    display: 'block',
+                    position: 'absolute',
+                    left: '10px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    cursor: 'pointer',
+                    zIndex: 1
+                }}
+                onClick={onClick}
+            />
+        );
+    };
+    
+    
+
     const sliderSettings = {
-        dots: true,
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        nextArrow: <NextArrow />,
+        prevArrow: <PrevArrow />
     };
+
+
 
     return (
         <Card className="carousel-card" sx={{ width: '34rem', margin: 'auto', mt: 3 }}>

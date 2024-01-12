@@ -15,8 +15,8 @@ export default function DisplayCard({ turf }) {
             <CardMedia
                 component="img"
                 sx={{ width: 300, height: 300, objectFit: 'cover' }}
-                image={turf.image}
-                alt={`${turf.name} photo`}
+                image={turf.image[0].url}
+                alt={`${turf.image[0].originalname} photo`}
             />
             <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <CardContent sx={{ flex: '1 0 auto', textAlign: 'left' }}>

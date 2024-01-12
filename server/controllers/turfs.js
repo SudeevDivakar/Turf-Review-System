@@ -6,7 +6,7 @@ const Turf = require('../models/turfSchema.js');
 
 //Requiring .env file
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config({ path: '../.env' });
+    require('dotenv').config();
 }
 
 const getAllTurfs = async (req, res) => {
@@ -47,7 +47,20 @@ const getTurf = async (req, res) => {
 };
 
 const updateTurf = async (req, res) => {
-    const newTurf = await Turf.findByIdAndUpdate(req.params.id, { ...req.body }, { new: true });
+    const newTurf = await Turf.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        price: req.body.price,
+        location: req.body.location,
+        description: req.body.description,
+    }, { new: true });
+    // newTurf.image = newTurf.image.filter((img) => {
+    //     if(img in req.body.images){
+    //         return img;
+    //     }
+    // })
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
+    newTurf.image.push(...imgs);
+    await newTurf.save();
     res.json({ Error: false, newTurf });
 };
 
