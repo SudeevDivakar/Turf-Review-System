@@ -6,11 +6,13 @@ import EditTurf from './pages/EditTurf';
 import NotFound from './pages/NotFound';
 import NewUser from './pages/NewUser';
 import Login from './pages/Login';
+import Home from './pages/Home';
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/turfs' element={<AllTurfs />} />
         <Route path='/turfs/:id' element={<Turf />} />
         <Route path='/turfs/new' element={<NewTurf />} />
