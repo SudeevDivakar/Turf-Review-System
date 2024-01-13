@@ -1,9 +1,11 @@
-import { useState, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./ShowMap.css"
-import { Icon, divIcon } from "leaflet";
+import { Icon } from "leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Rating } from "@mui/material";
 
 export default function ShowMap() {
 
@@ -11,20 +13,14 @@ export default function ShowMap() {
     const center = [20.5937, 78.9629];          //Adjusts where the map will be centered 
     const zoom = 4.5;                  //Adjusts how zoomed in the map is 
 
-    const markers = [
-        {
-            geocode: [12.975343, 77.713091],
-            popUp: "Powerplay 1"
-        },
-        {
-            geocode: [12.980936, 77.713965],
-            popUp: "Powerplay 2"
-        },
-        {
-            geocode: [12.947045, 77.718810],
-            popUp: "MKR sports arena"
-        },
-    ]
+    const [markers, setMarkers] = useState([]);
+    useEffect(() => {
+        async function mapData() {
+            const result = await axios.get('http://localhost:3000/turfs/mapData');
+            setMarkers(result.data);
+        }
+        mapData();
+    }, []);
 
     const customIcon = new Icon({
         iconUrl: import.meta.env.BASE_URL + 'pin.png',
@@ -34,22 +30,24 @@ export default function ShowMap() {
     return (
         <div>
             <MapContainer
-                center={[20.5937, 78.9629]}
-                zoom={4.5}
+                center={center}
+                zoom={zoom}
             >
                 <TileLayer
-                    url={'https://tile.openstreetmap.org/{z}/{x}/{y}.png'}
-                    attribution={'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}
+                    url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
-                <MarkerClusterGroup
-                    chunkedLoading
-                >
-                    {markers.map((marker,index) => (
-                        <Marker position={marker.geocode} icon={customIcon} key={index}>
-                            <Popup>
-                                <h3>{marker.popUp}</h3>
-                            </Popup>
-                        </Marker>
+                <MarkerClusterGroup chunkedLoading>
+                    {markers.map((marker, index) => (
+                        marker.geoCode && marker.geoCode.length > 0 && (
+                            <Marker position={marker.geoCode} icon={customIcon} key={index}>
+                                <Popup>
+                                    <h2 style={{marginBottom: '5px'}}>{marker.name}</h2>
+                                    {marker.rating ? <Rating value={marker.rating} readOnly /> : ''}
+                                    <p style={{marginTop: '5px'}}>{marker.location}</p>
+                                </Popup>
+                            </Marker>
+                        )
                     ))}
                 </MarkerClusterGroup>
             </MapContainer>

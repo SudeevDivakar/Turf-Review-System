@@ -19,6 +19,8 @@ router.get('/', catchAsync(turfs.getAllTurfs));
 
 router.post('/new', checkAuth, upload.array('image'), validateTurf, catchAsync(turfs.addTurf));
 
+router.get('/mapData', catchAsync(turfs.getAllMapData));
+
 router.get('/:id', catchAsync(turfs.getTurf));
 
 router.patch('/:id', checkAuth, isAuthor, upload.array('image'), validateTurf, catchAsync(turfs.updateTurf));

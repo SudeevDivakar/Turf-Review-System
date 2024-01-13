@@ -124,7 +124,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     sx={{ marginBottom: 2 }}
                 />
                 <TextField
-                    label="Location"
+                    label="Location (No Abbreviations)"
                     variant="outlined"
                     multiline
                     rows={4}
