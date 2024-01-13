@@ -17,6 +17,7 @@ const pages = [
   { label: 'Home', link: '/' },
   { label: 'All Turfs', link: '/turfs' },
   { label: 'New Turf', link: '/turfs/new' },
+  { label: 'Map', link: '/map'}
 ];
 
 export default function ResponsiveAppBar() {
