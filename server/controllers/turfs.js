@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userSchema.js');
 const Turf = require('../models/turfSchema.js');
 
+const { cloudinary } = require('../cloudinary');
+
 //Requiring .env file
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -53,11 +55,6 @@ const updateTurf = async (req, res) => {
         location: req.body.location,
         description: req.body.description,
     }, { new: true });
-    // newTurf.image = newTurf.image.filter((img) => {
-    //     if(img in req.body.images){
-    //         return img;
-    //     }
-    // })
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
     newTurf.image.push(...imgs);
     await newTurf.save();
@@ -65,8 +62,28 @@ const updateTurf = async (req, res) => {
 };
 
 const deleteTurf = async (req, res) => {
-    const response = await Turf.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    const images = await Turf.findById(id);
+    for(let i of images.image){
+        await cloudinary.uploader.destroy(i.filename);
+    }
+    const response = await Turf.findByIdAndDelete(id);
     res.json(response);
 };
 
-module.exports = { getAllTurfs, addTurf, getTurf, updateTurf, deleteTurf };
+const deleteImage = async (req, res) => {
+    try {
+        for(let filename of req.body.imagesToDelete){
+            await cloudinary.uploader.destroy(filename);
+        }
+        const { id } = req.params;
+        const turf = await Turf.findById(id);
+        await turf.updateOne({ $pull: { image: { filename: { $in: req.body.imagesToDelete } } } });
+        return res.json({ message: 'Images Deleted Successfully', Error: false });
+    }
+    catch {
+        res.json({Error: true, message: 'Images not Deleted'});
+    }
+}
+
+module.exports = { getAllTurfs, addTurf, getTurf, updateTurf, deleteTurf, deleteImage };

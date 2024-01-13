@@ -42,7 +42,14 @@ app.use(cors({
     credentials: true
 }));
 app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+    res.cookie('key', 'value', {
+        sameSite: 'None',
+        secure: true,
+    });
+    next();
+});
 
 //Routing
 app.use('/', users);

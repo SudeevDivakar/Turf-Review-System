@@ -38,7 +38,9 @@ export default function EditTurf() {
         price: 0,
         location: '',
         description: '',
-        image: []
+        images: [],            //Stores already added photos
+        image: [],            //used to store newly added photos
+        deleteImages: []       //Stores photos which we want to delete
     });
 
     useEffect(() => {
@@ -69,7 +71,9 @@ export default function EditTurf() {
                         price: res.data.price,
                         location: res.data.location,
                         description: res.data.description,
-                        image: res.data.image
+                        images: res.data.image,           //Stores already added photos
+                        deleteImages: [],             //Stores photos which we want to delete
+                        image: []               //used to store newly added photos 
                     };
                 });
             }
@@ -84,9 +88,37 @@ export default function EditTurf() {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
+
+        const newFormData = new FormData();
+        newFormData.append('name', formData.name);
+        newFormData.append('price', formData.price);
+        newFormData.append('location', formData.location);
+        newFormData.append('description', formData.description);
+
+        formData.image.forEach((i) => {
+            newFormData.append('image', i);
+        });
+
         try {
+            if (formData.deleteImages.length > 0) {
+                const deleteRes = await axios.delete(`http://localhost:3000/turfs/${id}/deleteImages`, {
+                    data: { imagesToDelete: formData.deleteImages },
+                    withCredentials: true,
+                });
+                if(deleteRes.Error){
+                    console.log('Could Not Delete Image');
+                }
+            }
+
             setLoading(true);
-            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, formData, { withCredentials: true });
+
+            const res = await axios.patch(`http://localhost:3000/turfs/${id}`, newFormData, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            
             if (res.data.Error) {
                 setTimeout(() => {
                     navigate('/turfs');

@@ -14,7 +14,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
         setFormData((oldFormData) => {
             return { ...oldFormData, [name]: value };
         });
-
+        
         // Clear the error when the user starts typing
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     };
@@ -26,6 +26,16 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
         }));
     };
 
+    const handleImageExistingDelete = (imageToDelete) => {
+        if(formData.images.length > 1){
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                images: prevFormData.images.filter((image) => image !== imageToDelete),
+                deleteImages: [...(prevFormData.deleteImages || []), imageToDelete.filename]
+            }));
+        }
+    }
+    
     const handleImageChange = (evt) => {
         if (evt.target.files[0] !== undefined) {
             setFormData((oldData) => {
@@ -63,7 +73,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
             newErrors.description = 'Description is required';
         }
 
-        if (formData.image.length === 0) {
+        if(type !== 'edit' && formData.image.length === 0) {
             newErrors.image = 'Image is required';
         }
 
@@ -141,6 +151,22 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     helperText={errors.description}
                     sx={{ marginBottom: 2 }}
                 />
+                {type === 'edit' && <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
+                        Existing photos - Delete Photo
+                </Typography>}
+                {type === 'edit' && <List>
+                    {formData.images.map((image, index) => (
+                        <ListItem key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <ImageIcon sx={{ mr: 1 }} />
+                                <ListItemText primary={image.originalname} sx={{ width: '18rem' }} />
+                                <IconButton edge="end" aria-label="delete" size="small" onClick={() => handleImageExistingDelete(image)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </div>
+                        </ListItem>
+                    ))}
+                </List>}
                 <input
                     style={{ display: 'none' }}
                     accept=".jpg, .jpeg, .png"
@@ -160,11 +186,11 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     </Button>
                 </label>
                 <List>
-                    {formData.image.map((image) => (
-                        <ListItem key={image.name} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
+                    {formData.image.map((image, index) => (
+                        <ListItem key={index} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0 }}>
                             <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <ImageIcon sx={{ mr: 1 }} />
-                                {type === 'edit' ? <ListItemText primary={image.originalname} sx={{ width: '18rem' }} /> : <ListItemText primary={image.name} sx={{ width: '18rem' }} />}
+                                <ListItemText primary={image.name} sx={{ width: '18rem' }} />
                                 <IconButton edge="end" aria-label="delete" size="small" onClick={() => handleImageDelete(image)}>
                                     <DeleteIcon />
                                 </IconButton>

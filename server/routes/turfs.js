@@ -21,9 +21,11 @@ router.post('/new', checkAuth, upload.array('image'), validateTurf, catchAsync(t
 
 router.get('/:id', catchAsync(turfs.getTurf));
 
-router.patch('/:id', checkAuth, isAuthor, validateTurf, catchAsync(turfs.updateTurf));
+router.patch('/:id', checkAuth, isAuthor, upload.array('image'), validateTurf, catchAsync(turfs.updateTurf));
 
 router.delete('/:id', isAuthor, catchAsync(turfs.deleteTurf));
+
+router.delete('/:id/deleteImages', isAuthor, catchAsync(turfs.deleteImage));
 
 
 module.exports = router;
