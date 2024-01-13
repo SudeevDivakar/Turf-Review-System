@@ -43,7 +43,7 @@ export default function ShowMap() {
                             <Marker position={marker.geoCode} icon={customIcon} key={index}>
                                 <Popup>
                                     <h2 style={{marginBottom: '5px'}}>{marker.name}</h2>
-                                    {marker.rating ? <Rating value={marker.rating} readOnly /> : ''}
+                                    {marker.rating ? <Rating value={marker.rating} readOnly /> : <Rating value={0} readOnly />}
                                     <p style={{marginTop: '5px'}}>{marker.location}</p>
                                 </Popup>
                             </Marker>

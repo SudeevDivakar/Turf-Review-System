@@ -23,7 +23,7 @@ export default function DisplayCard({ turf }) {
                     <Typography component="div" variant="h4" sx={{ marginBottom: 1 }}>
                         {turf.name}
                     </Typography>
-                    <Typography variant="h6" component="div" sx={{ marginBottom: 1 }}>
+                    <Typography variant="body2" component="div" sx={{ marginBottom: 1 }}>
                         {turf.description}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" component="div">

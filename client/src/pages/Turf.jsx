@@ -7,6 +7,7 @@ import { CssBaseline, Box, Container, Snackbar, Alert } from "@mui/material";
 import ShowCard from "../components/ShowCard";
 import ReviewForm from "../components/ReviewForm";
 import Review from "../components/Review";
+import SingleMap from "../components/SingleMap";
 
 export default function Turf() {
     const navigate = useNavigate();
@@ -147,6 +148,9 @@ export default function Turf() {
             <Container sx={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1, maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
                 <Box>
                     <ShowCard turf={turf} handleDelete={handleDelete} id={id} />
+                    <div style={{border: '1px solid black', height: '25rem', width: '34rem', marginTop: '10px'}}>
+                        <SingleMap turf={turf} />
+                    </div>
                 </Box>
                 <Box>
                     {isUser && <ReviewForm formData={formData} setFormData={setFormData} handleReviewSubmit={handleReviewSubmit} />}
