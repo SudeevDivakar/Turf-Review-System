@@ -7,11 +7,13 @@ import NotFound from './pages/NotFound';
 import NewUser from './pages/NewUser';
 import Login from './pages/Login';
 import Map from './pages/Map';
+import Home from './pages/Home';
 
 function App() {
   return (
     <>
       <Routes>
+        <Route path='/' element={<Home />} />
         <Route path='/map' element={<Map />} />
         <Route path='/turfs' element={<AllTurfs />} />
         <Route path='/turfs/:id' element={<Turf />} />
@@ -26,4 +28,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

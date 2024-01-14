@@ -20,7 +20,7 @@ const pages = [
   { label: 'Map', link: '/map'}
 ];
 
-export default function ResponsiveAppBar() {
+export default function ResponsiveAppBar({ transparent=false }) {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [user, setUser] = React.useState({});
@@ -75,7 +75,7 @@ export default function ResponsiveAppBar() {
   
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: '#303030' }}>
+    <AppBar position="sticky" sx={{ backgroundColor: transparent ? 'rgba(0, 0, 0, 0)' : '#303030' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img src={import.meta.env.BASE_URL + 'Logo.jpg'} alt="Logo" style={{ height: '30px', marginRight: '8px' }} />
