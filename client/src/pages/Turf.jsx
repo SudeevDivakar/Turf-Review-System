@@ -148,11 +148,11 @@ export default function Turf() {
             <Container sx={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1, maxWidth: '1200px', margin: '0 auto', padding: '20px' }}>
                 <Box>
                     <ShowCard turf={turf} handleDelete={handleDelete} id={id} />
-                    <div style={{border: '1px solid black', height: '25rem', width: '34rem', marginTop: '10px'}}>
-                        <SingleMap turf={turf} />
-                    </div>
                 </Box>
                 <Box>
+                    {turf.latitude && turf.longitude && <div style={{ border: '1px solid black', height: '17rem', width: '34rem', marginTop: '1.5rem' }}>
+                        <SingleMap turf={turf} />
+                    </div>}
                     {isUser && <ReviewForm formData={formData} setFormData={setFormData} handleReviewSubmit={handleReviewSubmit} />}
                     {turf.reviews.map((review) => (
                         <Review key={review._id} review={review} deleteComment={deleteComment} />

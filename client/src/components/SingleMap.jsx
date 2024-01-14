@@ -16,16 +16,16 @@ export default function SingleMap({ turf }) {
         <div style={{ height: 'inherit'}}>
             <MapContainer
                 style={{ height: 'inherit'}}
-                center={[20.5937, 78.9629]}        //Adjusts where the map will be centered
-                zoom={4}          //Adjusts how zoomed in the map is
+                center={[turf.latitude, turf.longitude]}        //Adjusts where the map will be centered
+                zoom={13}          //Adjusts how zoomed in the map is
             >
                 <TileLayer
                     url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
                 <MarkerClusterGroup chunkedLoading>
-                    {turf.geoCode && turf.geoCode.length > 0 && (
-                        <Marker position={turf.geoCode} icon={customIcon}>
+                    {turf.latitude && turf.longitude && (
+                        <Marker position={[turf.latitude, turf.longitude]} icon={customIcon}>
                             <Popup>
                                 <h2 style={{ marginBottom: '5px' }}>{turf.name}</h2>
                                 {turf.rating ? <Rating value={turf.rating} readOnly /> : <Rating value={0} readOnly />}

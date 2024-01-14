@@ -6,6 +6,7 @@ import MarkerClusterGroup from "react-leaflet-cluster";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Rating } from "@mui/material";
+import { Link } from "react-router-dom";
 
 export default function ShowMap() {
 
@@ -23,7 +24,7 @@ export default function ShowMap() {
     }, []);
 
     const customIcon = new Icon({
-        iconUrl: import.meta.env.BASE_URL + 'pin.png',
+        iconUrl: import.meta.env.BASE_URL + 'location.png',
         iconSize: [38, 38]
     })
 
@@ -39,10 +40,10 @@ export default function ShowMap() {
                 />
                 <MarkerClusterGroup chunkedLoading>
                     {markers.map((marker, index) => (
-                        marker.geoCode && marker.geoCode.length > 0 && (
-                            <Marker position={marker.geoCode} icon={customIcon} key={index}>
+                        marker.latitude && marker.longitude && (
+                            <Marker position={[marker.latitude, marker.longitude]} icon={customIcon} key={index}>
                                 <Popup>
-                                    <h2 style={{marginBottom: '5px'}}>{marker.name}</h2>
+                                    <Link to={`/turfs/${marker._id}`}><h2 style={{marginBottom: '5px', color: 'blue'}}>{marker.name}</h2></Link>
                                     {marker.rating ? <Rating value={marker.rating} readOnly /> : <Rating value={0} readOnly />}
                                     <p style={{marginTop: '5px'}}>{marker.location}</p>
                                 </Popup>

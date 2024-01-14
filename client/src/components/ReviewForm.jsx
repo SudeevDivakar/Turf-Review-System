@@ -37,7 +37,7 @@ export default function ReviewForm({ handleReviewSubmit, formData, setFormData }
 
     return (
         <Box sx={{ textAlign: 'left', width: '32rem', margin: "auto" }} component="form" onSubmit={handleFormSubmit}>
-            <Typography variant="h4" fontWeight='bold' sx={{ mt: 5, mb: 3 }} gutterBottom>
+            <Typography variant="h4" fontWeight='bold' sx={{ mt: 3, mb: 3 }} gutterBottom>
                 Leave a Review
             </Typography>
             <Typography variant="h6" gutterBottom>

@@ -30,20 +30,25 @@ const addTurf = async (req, res) => {
         })
     }
 
-    const encodedAddress = encodeURIComponent(req.body.location);
-    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&limit=1`);
-
-    const user = await User.findOne({ username });
-    const turf = await Turf.create({
-        name: req.body.name,
-        image: req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname })),
-        price: req.body.price,
-        geoCode: response.data && response.data.length > 0 && response.data !== undefined ? [parseFloat(response.data[0].lat), parseFloat(response.data[0].lon)] : null,
-        description: req.body.description,
-        location: req.body.location,
-        author: user
-    });
-    res.json(turf);
+    try {
+        const encodedAddress = encodeURIComponent(req.body.location);
+        const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&limit=1`);
+        const user = await User.findOne({ username });
+        const turf = await Turf.create({
+            name: req.body.name,
+            image: req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname })),
+            price: req.body.price,
+            latitude: response.data && response.data.length > 0 && response.data !== undefined ? parseFloat(response.data[0].lat) : '',
+            longitude: response.data && response.data.length > 0 && response.data !== undefined ? parseFloat(response.data[0].lon) : '',
+            description: req.body.description,
+            location: req.body.location,
+            author: user
+        });
+        return res.json({ Error: false, turf });
+    }
+    catch(err) {
+        res.json({ Error: true, message: 'Cannot extract Geo keys' });
+    }
 };
 
 const getTurf = async (req, res) => {
@@ -58,16 +63,83 @@ const getTurf = async (req, res) => {
 };
 
 const updateTurf = async (req, res) => {
-    const newTurf = await Turf.findByIdAndUpdate(req.params.id, {
-        name: req.body.name,
-        price: req.body.price,
-        location: req.body.location,
-        description: req.body.description,
-    }, { new: true });
-    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
-    newTurf.image.push(...imgs);
-    await newTurf.save();
-    res.json({ Error: false, newTurf });
+    const { id } = req.params;
+    const turf = await Turf.findById(id);
+
+    //Conditions for geocodes
+    const newValuesWithPreviousValues = (turf.latitude && turf.longitude && (turf.latitude !== parseFloat(req.body.latitude) || parseFloat(turf.longitude !== req.body.longitude)));
+    const emptyValuesWithPreviousValues = (req.body.latitude === '' && req.body.longitude === '' && turf.latitude && turf.longitude);
+    const newValuesWithNoPreviousValues = (turf.latitude === null && turf.longitude === null && (req.body.latitude !== '' && req.body.longitude !== ''));
+
+    const emptyValuesWithNoPreviousValues = (turf.latitude === null && turf.longitude === null && (req.body.latitude === '' && req.body.longitude === ''));
+    const sameValuesAsPreviousValues = (turf.latitude && turf.longitude && (turf.latitude === parseFloat(req.body.latitude) || parseFloat(turf.longitude === req.body.longitude)));
+
+    const addressIsChangeWithPreviousValues = (turf.location !== req.body.location && sameValuesAsPreviousValues);
+    const addressNotChangeWithPreviousValues = (turf.location === req.body.location && sameValuesAsPreviousValues);
+
+    if (newValuesWithPreviousValues || newValuesWithNoPreviousValues || emptyValuesWithPreviousValues) {
+        try {
+            const newTurf = await Turf.findByIdAndUpdate(id, {
+                name: req.body.name,
+                price: req.body.price,
+                latitude: emptyValuesWithPreviousValues ? '' : parseFloat(req.body.latitude),
+                longitude: emptyValuesWithPreviousValues ? '' : parseFloat(req.body.longitude),
+                location: req.body.location,
+                description: req.body.description,
+            }, { new: true });
+            const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
+            newTurf.image.push(...imgs);
+            await newTurf.save();
+            return res.json({ Error: false, newTurf });
+        }
+        catch(err) {
+            return res.json({ Error: true });
+        }
+    }
+    else if (emptyValuesWithNoPreviousValues) {
+        try {
+            const encodedAddress = encodeURIComponent(req.body.location);
+            const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodedAddress}&format=json&limit=1`);
+
+            const newTurf = await Turf.findByIdAndUpdate(id, {
+                name: req.body.name,
+                price: req.body.price,
+                latitude: response.data && response.data.length > 0 && response.data !== undefined ? parseFloat(response.data[0].lat) : '',
+                longitude: response.data && response.data.length > 0 && response.data !== undefined ? parseFloat(response.data[0].lon) : '',
+                location: req.body.location,
+                description: req.body.description,
+            }, { new: true });
+            const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
+            newTurf.image.push(...imgs);
+            await newTurf.save();
+            return res.json({ Error: false, newTurf });
+        }
+        catch(err){
+            return res.json({ Error: true });
+        }
+    }
+    else if( addressNotChangeWithPreviousValues || addressIsChangeWithPreviousValues ){
+        try{
+            const newTurf = await Turf.findByIdAndUpdate(id, {
+                name: req.body.name,
+                price: req.body.price,
+                latitude: parseFloat(turf.latitude),
+                longitude: parseFloat(turf.longitude),
+                location: req.body.location,
+                description: req.body.description,
+            }, { new: true });
+            const imgs = req.files.map(f => ({ url: f.path, filename: f.filename, originalname: f.originalname }));
+            newTurf.image.push(...imgs);
+            await newTurf.save();
+            return res.json({ Error: false, newTurf });
+        }
+        catch(err){
+            return res.json({ Error: true });
+        }
+    }
+    else{
+        return res.json({ Error: true });
+    }
 };
 
 const deleteTurf = async (req, res) => {
@@ -96,7 +168,7 @@ const deleteImage = async (req, res) => {
 }
 
 const getAllMapData = async (req, res) => {
-    const result = await Turf.find({}, { name: 1, location: 1, geoCode: 1, rating: 1, _id: 0 });
+    const result = await Turf.find({}, { name: 1, location: 1, latitude: 1, longitude: 1, rating: 1, _id: 1 });
     res.json(result);
 }
 

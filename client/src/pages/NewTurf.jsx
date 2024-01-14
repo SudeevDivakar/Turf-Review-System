@@ -27,6 +27,7 @@ export default function NewTurf() {
     });
 
     const [open, setOpen] = useState(false);
+    const [openErrorSnackBar, setOpenErrorSnackBar] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleClick = () => {
@@ -38,6 +39,17 @@ export default function NewTurf() {
             return;
         }
         setOpen(false);
+    };
+
+    const handleErrorClick = () => {
+        setOpenErrorSnackBar(true);
+    };
+
+    const handleErrorClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenErrorSnackBar(false);
     };
 
     const handleSubmit = async (evt) => {
@@ -53,10 +65,15 @@ export default function NewTurf() {
         try {
             setLoading(true);
             const res = await axios.post(`http://localhost:3000/turfs/new`, newFormData, { withCredentials: true });
-            setTimeout(() => {
-                navigate(`/turfs/${res.data._id}`);
-            }, 1000);
-            handleClick();
+            if(!res.data.Error){
+                setTimeout(() => {
+                    navigate(`/turfs/${res.data.turf._id}`);
+                }, 1000);
+                handleClick();
+            }
+            else{
+                handleErrorClick();
+            }
         } catch (err) {
             console.log('Error in Adding Turf', err);
         } finally {
@@ -76,6 +93,11 @@ export default function NewTurf() {
                 <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                         Turf Successfully Added!
+                    </Alert>
+                </Snackbar>
+                <Snackbar open={openErrorSnackBar} autoHideDuration={1000} onClose={handleErrorClose}>
+                    <Alert onClose={handleErrorClose} severity="error" sx={{ width: '100%' }}>
+                        Cannot code Geo Keys (Address Invalid)
                     </Alert>
                 </Snackbar>
             </Box>

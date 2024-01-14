@@ -38,6 +38,8 @@ export default function EditTurf() {
         price: 0,
         location: '',
         description: '',
+        latitude: '',
+        longitude: '',
         images: [],            //Stores already added photos
         image: [],            //used to store newly added photos
         deleteImages: []       //Stores photos which we want to delete
@@ -65,12 +67,19 @@ export default function EditTurf() {
         try {
             const res = await axios.get(`http://localhost:3000/turfs/${id}`, { withCredentials: true });
             if (res.data !== null) {
+                let lat = '', long = '';
+                if(res.data.latitude && res.data.longitude){
+                    lat = res.data.latitude;
+                    long = res.data.longitude; 
+                }
                 setFormData((oldTurf) => {
                     return {
                         name: res.data.name,
                         price: res.data.price,
                         location: res.data.location,
                         description: res.data.description,
+                        latitude: lat,
+                        longitude: long,
                         images: res.data.image,           //Stores already added photos
                         deleteImages: [],             //Stores photos which we want to delete
                         image: []               //used to store newly added photos 
@@ -88,17 +97,19 @@ export default function EditTurf() {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-
+        
         const newFormData = new FormData();
         newFormData.append('name', formData.name);
         newFormData.append('price', formData.price);
         newFormData.append('location', formData.location);
         newFormData.append('description', formData.description);
+        newFormData.append('latitude', formData.latitude);
+        newFormData.append('longitude', formData.longitude);
 
         formData.image.forEach((i) => {
             newFormData.append('image', i);
         });
-
+        
         try {
             if (formData.deleteImages.length > 0) {
                 const deleteRes = await axios.delete(`http://localhost:3000/turfs/${id}/deleteImages`, {
@@ -111,7 +122,6 @@ export default function EditTurf() {
             }
 
             setLoading(true);
-
             const res = await axios.patch(`http://localhost:3000/turfs/${id}`, newFormData, {
                 withCredentials: true,
                 headers: {

@@ -3,16 +3,16 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const geoCodes = [
-    [12.975383, 77.713096],
-    [12.980907, 77.713986],
-    [12.977853, 77.707433],
-    [12.987626, 77.729879],
-    [12.957353, 77.729871],
-    [12.939937, 77.705589],
-    [12.927563, 77.640576],
-    [12.886028, 77.643096],
-    [12.885873, 77.599709],
-    [12.962264, 77.592334],
+    [12.975488580700892, 77.7131340218595],
+    [12.981181082568748, 77.71397715387226],
+    [12.97799928307496, 77.70744268195237],
+    [12.987802474818066, 77.72982222428088],
+    [12.95758581154793, 77.72982720893685],
+    [12.940070194766845, 77.7055729089366],
+    [12.932075051488901, 77.63261787618046],
+    [12.886239560064675, 77.64312303962242],
+    [12.880201251630341, 77.62234568557867],
+    [12.962399663528148, 77.5923172954446],
 ]
 
 const locations = [
@@ -37,7 +37,7 @@ const names = [
     'Astro Arena',
     'Sporthood Koramangala',
     'Iqra Games Village',
-    'Football Turf',
+    'Begur Turf',
     'Tiento Sports'
 ]
 
@@ -61,7 +61,8 @@ const footballTurfs = Array.from({ length: 10 }, (_, index) => ({
         },
         
     ],
-    geoCode: geoCodes[index],
+    latitude: geoCodes[index][0],
+    longitude: geoCodes[index][1],
     price: 30 + index,
     rating: 0,
     description: 'Lively turf, perfect for sports and events. A green oasis with modern amenities, ideal for relaxation and celebrations.',

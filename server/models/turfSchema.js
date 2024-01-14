@@ -14,7 +14,8 @@ const turfSchema = new Schema({
     price: Number,
     rating: Number,
     description: String,
-    geoCode: Array,
+    latitude: Number,
+    longitude: Number,
     location: String,
     author: {
         type: Schema.Types.ObjectId,

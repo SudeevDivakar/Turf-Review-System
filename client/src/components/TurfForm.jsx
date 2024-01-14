@@ -14,7 +14,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
         setFormData((oldFormData) => {
             return { ...oldFormData, [name]: value };
         });
-        
+
         // Clear the error when the user starts typing
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     };
@@ -27,7 +27,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
     };
 
     const handleImageExistingDelete = (imageToDelete) => {
-        if(formData.images.length > 1){
+        if (formData.images.length > 1) {
             setFormData((prevFormData) => ({
                 ...prevFormData,
                 images: prevFormData.images.filter((image) => image !== imageToDelete),
@@ -35,7 +35,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
             }));
         }
     }
-    
+
     const handleImageChange = (evt) => {
         if (evt.target.files[0] !== undefined) {
             setFormData((oldData) => {
@@ -73,8 +73,29 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
             newErrors.description = 'Description is required';
         }
 
-        if(type !== 'edit' && formData.image.length === 0) {
+        if (type !== 'edit' && formData.image.length === 0) {
             newErrors.image = 'Image is required';
+        }
+
+        if(type === 'edit' && isNaN(formData.latitude)){
+            newErrors.latitude = 'Latitude Must Be A Number';
+        }
+
+        if(type === 'edit' && (formData.latitude > 90 || formData.latitude < -90)){
+            newErrors.latitude = 'Latitude Must be Between -90 and 90';
+        }
+
+        if(type === 'edit' && (formData.longitude > 180 || formData.longitude < -180)){
+            newErrors.latitude = 'Longitude Must be Between -180 and 180';
+        }
+
+        if(type === 'edit' && isNaN(formData.longitude)){
+            newErrors.longitude = 'Longitude Must be a Number';
+        }
+
+        if(type === 'edit' && (!formData.longitude && formData.latitude) || (formData.longitude && !formData.latitude)){
+            newErrors.latitude = 'Fill Both Coordinates or Neither';
+            newErrors.longitude = 'Fill Both Coordinates or Neither';
         }
 
         setErrors(newErrors);
@@ -124,7 +145,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     sx={{ marginBottom: 2 }}
                 />
                 <TextField
-                    label="Location (No Abbreviations)"
+                    label="Location"
                     variant="outlined"
                     multiline
                     rows={4}
@@ -137,6 +158,38 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     helperText={errors.location}
                     sx={{ marginBottom: 2 }}
                 />
+                {type === 'edit' &&
+                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left', mb: 1.5, ml: 1 }}>
+                        Location Incorrect/Not coded? Enter Latitude & Longitude
+                    </Typography>}
+                {type === 'edit' && 
+                <Box sx={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+                    <TextField
+                    label="Latitude"
+                    variant="outlined"
+                    id="latitude"
+                    name="latitude"
+                    autoComplete='off'
+                    value={formData.latitude}
+                    onChange={handleChange}
+                    error={!!errors.latitude}
+                    helperText={errors.latitude}
+                    sx={{ marginBottom: 2, width: '48%', marginRight: '2%' }}
+                    />
+                    <TextField
+                    label="Longitude"
+                    variant="outlined"
+                    id="longitude"
+                    name="longitude"
+                    autoComplete='off'
+                    value={formData.longitude}
+                    onChange={handleChange}
+                    error={!!errors.longitude}
+                    helperText={errors.longitude}
+                    sx={{ marginBottom: 2, width: '48%', marginLeft: '2%' }}
+                    />
+                    </Box>
+                }
                 <TextField
                     label="Description"
                     variant="outlined"
@@ -152,7 +205,7 @@ export default function TurfForm({ handleSubmit, formData, setFormData, type, lo
                     sx={{ marginBottom: 2 }}
                 />
                 {type === 'edit' && <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left' }}>
-                        Existing photos - Delete Photo
+                    Existing photos - Delete Photo
                 </Typography>}
                 {type === 'edit' && <List>
                     {formData.images.map((image, index) => (

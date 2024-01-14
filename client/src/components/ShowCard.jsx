@@ -63,8 +63,6 @@ export default function ShowCard({ turf, handleDelete, id }) {
         );
     };
     
-    
-
     const sliderSettings = {
         dots: false,
         infinite: true,
@@ -75,10 +73,8 @@ export default function ShowCard({ turf, handleDelete, id }) {
         prevArrow: <PrevArrow />
     };
 
-
-
     return (
-        <Card className="carousel-card" sx={{ width: '34rem', margin: 'auto', mt: 3 }}>
+        <Card className="carousel-card" sx={{ width: '34rem', margin: 'auto', mt: 3, mb: 3 }}>
             {turf.image && turf.image.length > 0 && (
                 <Slider {...sliderSettings}>
                     {turf.image.map((img, index) => (

@@ -25,6 +25,8 @@ router.get('/:id', catchAsync(turfs.getTurf));
 
 router.patch('/:id', checkAuth, isAuthor, upload.array('image'), validateTurf, catchAsync(turfs.updateTurf));
 
+router.put('/:id/geoCode', checkAuth, isAuthor, validateTurf, catchAsync(turfs.updateGeoCodes));
+
 router.delete('/:id', isAuthor, catchAsync(turfs.deleteTurf));
 
 router.delete('/:id/deleteImages', isAuthor, catchAsync(turfs.deleteImage));

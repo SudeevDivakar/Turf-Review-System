@@ -10,12 +10,10 @@ const turfSchema = Joi.object({
             originalname: Joi.string().required()
         })
     ).min(1),
-    geoCode: Joi.alternatives().try(
-        Joi.array().items(Joi.number()).length(2),
-        Joi.valid(null)
-    ),
     location: Joi.string().required(),
-    description: Joi.string().required()
+    description: Joi.string().required(),
+    latitude: Joi.number().min(-90).max(90).allow(''),
+    longitude: Joi.number().min(-180).max(180).allow('')
 });
 
 const reviewSchema = Joi.object({
