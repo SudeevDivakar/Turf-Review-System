@@ -8,7 +8,7 @@ const Home = () => {
     return (
         <div className='homeContainer'>
             <CssBaseline />
-            <ResponsiveAppBar transparent={true} />
+            <ResponsiveAppBar />
             <HomeContent />
         </div>
     );

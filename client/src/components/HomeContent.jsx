@@ -15,7 +15,7 @@ const HomeContent = () => {
                 backgroundColor: 'white', 
                 color: 'black',
                 '&:hover': {
-                    backgroundColor: '#808080',
+                    backgroundColor: '#303030',
                     color: 'white',
                 }
             }}>
