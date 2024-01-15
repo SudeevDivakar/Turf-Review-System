@@ -21,6 +21,9 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+//Require Mongo Sanitize
+const mongoSanitize = require('express-mongo-sanitize');
+
 //Connect to MongoDB
 mongoose.connect(process.env.DB_URL)
     .then(() => {
@@ -45,11 +48,13 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use((req, res, next) => {
     res.cookie('key', 'value', {
+        httpOnly: true,
         sameSite: 'None',
         secure: true,
     });
     next();
 });
+app.use(mongoSanitize());
 
 //Routing
 app.use('/', users);
