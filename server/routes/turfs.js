@@ -10,6 +10,7 @@ const catchAsync = require('../utils/catchAsync.js');
 //Requiring controllers
 const turfs = require('../controllers/turfs.js');
 
+//Require multer to upload file data onto a storage (cloudinary in our case)
 const multer = require('multer');
 const { storage } = require('../cloudinary/index.js');
 const upload = multer({ storage })
@@ -24,8 +25,6 @@ router.get('/mapData', catchAsync(turfs.getAllMapData));
 router.get('/:id', catchAsync(turfs.getTurf));
 
 router.patch('/:id', checkAuth, isAuthor, upload.array('image'), validateTurf, catchAsync(turfs.updateTurf));
-
-router.put('/:id/geoCode', checkAuth, isAuthor, validateTurf, catchAsync(turfs.updateGeoCodes));
 
 router.delete('/:id', isAuthor, catchAsync(turfs.deleteTurf));
 

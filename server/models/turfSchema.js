@@ -29,12 +29,14 @@ const turfSchema = new Schema({
     ]
 });
 
+//Post mongoose middleware to delete all reviews associated with a turf whenever a turf is deleted
 turfSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {
         await Review.deleteMany({ _id: { $in: doc.reviews } });
     }
 });
 
+//Post mongoose middleware to calculate the average turf rating everytime a review is added to a turf
 turfSchema.post('save', async function () {
     const turf = await this.constructor.findById(this._id).populate('reviews');
     if (turf && turf.reviews.length > 0) {

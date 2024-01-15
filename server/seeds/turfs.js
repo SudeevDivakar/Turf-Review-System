@@ -1,3 +1,6 @@
+//Used to create dummy data to seed the database
+//DO NOT CHANGE
+
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }

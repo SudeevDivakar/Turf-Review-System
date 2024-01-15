@@ -12,6 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+//Controller to add a user
 const registerUser = async (req, res) => {
     try {
         const { email, username, password } = req.body;
@@ -52,6 +53,7 @@ const registerUser = async (req, res) => {
     }
 };
 
+//Controller to log a user in
 const loginUser = async (req, res) => {
     try{
         const { username, password } = req.body;
@@ -78,10 +80,12 @@ const loginUser = async (req, res) => {
     }
 };
 
+//Controller to log a user out
 const logoutUser = (req, res) => {
     res.clearCookie('token').status(200).json({ message: 'Logged out successfully' });
 };
 
+//Controller to get user details
 const getUserProfile = async(req, res) => {
     const { token } = req.cookies;
     if(token){

@@ -1,5 +1,7 @@
+//Requiring JOI for schema validations
 const Joi = require('joi');
 
+//Schema validations for turf
 const turfSchema = Joi.object({
     name: Joi.string().required(),
     price: Joi.number().required().min(0),
@@ -16,9 +18,10 @@ const turfSchema = Joi.object({
     longitude: Joi.number().min(-180).max(180).allow('')
 });
 
+//Schema validations for reviews
 const reviewSchema = Joi.object({
     rating: Joi.number().required().min(0).max(5),
     review: Joi.string().required()
-})
+});
 
 module.exports = { turfSchema, reviewSchema };

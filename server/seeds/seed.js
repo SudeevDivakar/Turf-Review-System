@@ -1,3 +1,6 @@
+//Used to seed the database with dummy values
+//DO NOT CHANGE
+
 const mongoose = require('mongoose');
 const Review = require('../models/reviewSchema.js');
 const Turf = require('../models/turfSchema.js');             //requiring models

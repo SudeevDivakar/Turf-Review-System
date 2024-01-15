@@ -10,6 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
+//Controller to add a review
 const createReview = async (req, res) => {
     const { token } = req.cookies;
     let userId;
@@ -30,6 +31,7 @@ const createReview = async (req, res) => {
     res.json(newReview);
 };
 
+//Controller to delete a review
 const deleteReview = async (req, res) => {
     const { id, reviewId } = req.params;
     await Turf.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });

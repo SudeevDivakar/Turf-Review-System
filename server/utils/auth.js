@@ -1,3 +1,4 @@
+//Used to encrypt and decrypt (and compare) passwords
 const bcrypt = require('bcrypt');
 
 const hashPassword = async (password) => {

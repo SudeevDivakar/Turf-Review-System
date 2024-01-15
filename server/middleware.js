@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
 
-//Middleware
+//Middleware for user authentication
 const checkAuth = async (req, res, next) => {
     const { token } = req.cookies;
 
@@ -43,6 +43,7 @@ const checkAuth = async (req, res, next) => {
     }
 };
 
+//Middleware to check whether turf is valid according to the JOI schema validations
 const validateTurf = (req, res, next) => {
     const { error } = turfSchema.validate(req.body);
     if (error) {
@@ -52,8 +53,9 @@ const validateTurf = (req, res, next) => {
     else {
         next();
     }
-}
+};
 
+//Middleware to check whether the user has made the turf currently being viewed
 const isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const { token } = req.cookies;
@@ -73,8 +75,9 @@ const isAuthor = async (req, res, next) => {
     catch {
         return res.status(401).json({ Error: true, message: 'Unauthorized - Invalid token' });
     }
-}
+};
 
+////Middleware to check whether review is valid according to the JOI schema validations
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body);
     if (error) {
@@ -84,8 +87,9 @@ const validateReview = (req, res, next) => {
     else {
         next();
     }
-}
+};
 
+//Middleware to check whether the user wrote a review
 const isReviewAuthor = async (req, res, next) => {
     const { reviewId } = req.params;
     const { token } = req.cookies;
@@ -105,6 +109,6 @@ const isReviewAuthor = async (req, res, next) => {
     catch {
         return res.status(401).json({ Error: true, message: 'Unauthorized - Invalid token' });
     }
-}
+};
 
 module.exports = { checkAuth, validateTurf, isAuthor, validateReview, isReviewAuthor };

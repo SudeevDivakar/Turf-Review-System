@@ -14,6 +14,7 @@ const reviewSchema = new Schema({
     }
 });
 
+//Post mongoose middleware to update the rating value of a turf everytime a review is deleted
 reviewSchema.post('findOneAndDelete', async function (doc, next) {
     if (doc) {
         const Turf = mongoose.model('Turf');
