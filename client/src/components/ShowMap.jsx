@@ -44,7 +44,7 @@ export default function ShowMap() {
                             <Marker position={[marker.latitude, marker.longitude]} icon={customIcon} key={index}>
                                 <Popup>
                                     <Link to={`/turfs/${marker._id}`}><h2 style={{marginBottom: '5px', color: 'blue'}}>{marker.name}</h2></Link>
-                                    {marker.rating ? <Rating value={marker.rating} readOnly /> : <Rating value={0} readOnly />}
+                                    {marker.rating ? <Rating value={marker.rating} precision={0.5} readOnly /> : <Rating value={0} readOnly />}
                                     <p style={{marginTop: '5px'}}>{marker.location}</p>
                                 </Popup>
                             </Marker>

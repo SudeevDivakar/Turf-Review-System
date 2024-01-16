@@ -14,7 +14,7 @@ export default function AllTurfs() {
     }, []);
 
     const fetchTurfs = async () => {
-        const res = await axios.get('http://localhost:3000/turfs');
+        const res = await axios.get('http://localhost:3000/turfs', { withCredentials: true });
         setTurfs((oldTurfs) => {
             return res.data;
         })

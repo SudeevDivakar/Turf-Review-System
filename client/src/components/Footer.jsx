@@ -17,7 +17,7 @@ export default function Footer() {
           <Typography variant="body1" color="inherit" sx={{display: 'inline'}}>
               GitHub Code Link:
             </Typography>
-            <IconButton color="inherit" href="" target="_blank">
+            <IconButton color="inherit" href="https://github.com/SudeevDivakar/Turf-Review-System" target="_blank">
               <GitHubIcon />
             </IconButton>
           </div>

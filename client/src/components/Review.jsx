@@ -20,12 +20,12 @@ export default function Review({ review, deleteComment }) {
     isLoggedIn();
   })
   return (
-    <Card sx={{ width: '30rem', mb: 1.5 }}>
+    <Card sx={{ width: '30rem', mb: 0.75, mt: 0.75 }}>
       <CardContent>
         <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-            <Typography variant="body1" textAlign="left" sx={{ fontWeight: 'bold' }}>
-              {review.author.username}
-            </Typography>
+          <Typography variant="body1" textAlign="left" sx={{ fontWeight: 'bold' }}>
+            {review.author.username}
+          </Typography>
           <Rating
             name="read-only"
             value={review.rating || 0}

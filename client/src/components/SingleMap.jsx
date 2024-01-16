@@ -28,7 +28,7 @@ export default function SingleMap({ turf }) {
                         <Marker position={[turf.latitude, turf.longitude]} icon={customIcon}>
                             <Popup>
                                 <h2 style={{ marginBottom: '5px' }}>{turf.name}</h2>
-                                {turf.rating ? <Rating value={turf.rating} readOnly /> : <Rating value={0} readOnly />}
+                                {turf.rating ? <Rating value={turf.rating} precision={0.5} readOnly /> : <Rating value={0} readOnly />}
                                 <p style={{ marginTop: '5px' }}>{turf.location}</p>
                             </Popup>
                         </Marker>
