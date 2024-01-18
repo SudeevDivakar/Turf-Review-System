@@ -2,12 +2,13 @@
 
 # TurfReview
 
-## Preview
-![Alt text](image.png)
-![Alt text](image-1.png)
-
 ## Overview
 TurfReview is a comprehensive system for reviewing and exploring turf locations. Whether you're a sports enthusiast, event planner, or someone looking for the perfect turf for your activities, TurfReview has you covered.
+
+## Preview
+![Alt text](./project_images/image.png)
+![Alt text](./project_images/image-2.png)
+Furthur images present in ./project_images
 
 ## Key Features
 - **Explore Turf Locations**: Discover a variety of turf locations suitable for sports, events, and recreational activities.
