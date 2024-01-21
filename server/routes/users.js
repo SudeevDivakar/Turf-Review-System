@@ -13,7 +13,7 @@ router.post('/register', catchAsync(users.registerUser));
 
 router.post('/login', catchAsync(users.loginUser));
 
-router.post('/logout', catchAsync(users.logoutUser));
+router.post('/logout', users.logoutUser);
 
 router.get('/profile', catchAsync(users.getUserProfile));
 
