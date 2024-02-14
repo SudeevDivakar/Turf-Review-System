@@ -66,13 +66,13 @@ db.users.find({})
 Now copy the ObjectID present within ObjectId('') and paste it within the .env file created in the server directory.
 Your .env file should look something like this now,
 ```
-PORT=
+PORT=3000
 DB_URL=
 JWT_SECRET=
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_KEY=
 CLOUDINARY_SECRET=
-DATABASE_SEED_AUTHOR=''
+DATABASE_SEED_AUTHOR=
 ```
 In the server directory, run:
 ```
