@@ -50,13 +50,7 @@ CLOUDINARY_SECRET=
 ```
 
 - **Start Up the Front and Backend servers**
-
-```
-cd ../client
-npm run dev
-cd ../server
-npm run dev
-```
+  On two different terminals (one in the client directory and one in the server directory), run `npm run dev` in each directory.
 
 - Open up the react server on 'http://localhost:5173/register'
 
